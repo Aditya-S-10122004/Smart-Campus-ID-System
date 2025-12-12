@@ -1,0 +1,73 @@
+.clg-details{
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    font-size: 1.2rem;
+}
+
+.clg-image{
+    height: 55vh;
+    width: 65%;
+    border-radius: 18px;
+}
+
+.clg-address{
+    color: white;
+    width: 100%;
+    background-color: #1f63d6;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    border-radius: 25px 100px;
+    padding-left: 10px;
+    gap: 10px;
+}
+
+.location{
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+}
+
+.location-map{
+    border-radius: 18px;
+    width: 65%;
+    height: 55vh;
+}
+
+.location form{
+    padding: 0 20px;
+    color: white;
+    background-color: #1f63d6;
+    border-radius: 100px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.location form h2{
+    margin-top: 50px;
+}
+
+.user-input{
+    width: 80%;
+    height: 40px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 8px;
+    padding-left: 15px;
+}
+
+.location form button{
+    width: 20%;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+}
+
+.location form button:hover{
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}

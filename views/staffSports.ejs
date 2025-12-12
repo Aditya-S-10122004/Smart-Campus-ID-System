@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sports Staff</title>
+
+    <link rel="stylesheet" href="/style/staffMess.css" />
+  </head>
+  <body>
+    <header class="sm-header" role="banner">
+      <div class="sm-brand">SDMCET</div>
+      <div class="sm-header-right">
+        <button id="themeToggle" class="sm-theme-toggle" aria-pressed="false">
+          🌞 Light
+        </button>
+        <a href="/logout" class="sm-signout">Sign Out</a>
+      </div>
+    </header>
+
+    <main class="sm-main" role="main">
+      <div class="sm-card">
+        <div class="sm-top-row">
+          <div class="sm-user-block" aria-live="polite">
+            <div class="sm-user-title">User : Sports</div>
+            <div class="sm-user-sub"><i>Staff type : Sports</i></div>
+          </div>
+
+          <div
+            class="sm-scan-controls"
+            role="group"
+            aria-label="Scanner controls"
+          >
+            <button id="startScanBtn" class="sm-scan-btn" type="button">
+              Start Scan
+            </button>
+            <button id="stopScanBtn" class="sm-stop-btn" type="button" disabled>
+              Stop
+            </button>
+            <span
+              id="scanStatus"
+              style="margin-left: 12px; color: #444; font-weight: 500"
+              >Idle</span
+            >
+          </div>
+        </div>
+
+        <div class="sm-video-wrap" id="videoWrap" aria-hidden="true">
+          <video id="cameraPreview" autoplay muted playsinline></video>
+          <canvas id="hiddenCanvas" style="display: none"></canvas>
+          <div class="sm-overlay" id="scanOverlay" style="display: none">
+            Scanning…
+          </div>
+        </div>
+
+        <div class="sm-today-visits" role="region" aria-label="Today summary">
+          <div class="sm-visits-card">
+            <p class="sm-visits-name">Total visits</p>
+            <p class="sm-visits-count" id="totalVisits">
+              <%= typeof totals !== 'undefined' && totals.totalVisits != null ?
+              totals.totalVisits : 0 %>
+            </p>
+          </div>
+          <div class="sm-visits-card">
+            <p class="sm-visits-name">Subscribed visits</p>
+            <p class="sm-visits-count" id="subscribedVisits">
+              <%= typeof totals !== 'undefined' && totals.sportsActive != null ?
+              totals.sportsActive : 0 %>
+            </p>
+          </div>
+          <div class="sm-visits-card">
+            <p class="sm-visits-name">Not subscribed visits</p>
+            <p class="sm-visits-count" id="notSubscribedVisits">
+              <%= typeof totals !== 'undefined' && totals.notActive != null ?
+              totals.notActive : 0 %>
+            </p>
+          </div>
+        </div>
+
+        <div class="sm-recent-title">Recent visits :</div>
+
+        <div id="visitList" class="sm-visit-list" aria-live="polite">
+          <% if (Array.isArray(recentVisits) && recentVisits.length) { %> <%
+          recentVisits.forEach(function(v) { %>
+          <div class="sm-visit-item" data-id="<%= v.id || '' %>">
+            <div class="sm-visit-left">
+              <% if (v.photo_path) { %>
+              <img src="<%= v.photo_path %>" alt="photo" class="sm-thumb" />
+              <% } %>
+              <div>
+                <p class="sm-visit-item-name">
+                  <%= v.student_name || v.name || 'Unknown' %>
+                </p>
+                <i class="sm-visit-item-id"
+                  ><%= v.student_id || v.id || '' %></i
+                >
+              </div>
+            </div>
+
+            <div class="sm-visit-middle">
+              <% if (typeof v.indoor_sports_active !== 'undefined') { %> <%=
+              v.indoor_sports_active ? 'Subscribed' : 'Not Subscribed' %> <% }
+              else { %> <%= v.category || '' %> <% } %>
+            </div>
+
+            <div class="sm-visit-right">
+              <%= v.status || (v.booked ? 'Booked' : 'No bookings') %>
+            </div>
+          </div>
+          <% }) %> <% } else { %>
+          <div class="sm-visit-item">
+            <div class="sm-visit-left">
+              <p class="sm-visit-item-name">No recent visits yet.</p>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </main>
+
+    <footer class="sm-footer">SDMCET | © 2025 Smart Campus ID System</footer>
+
+    <script src="/static/js/staffSports.js" defer></script>
+  </body>
+</html>

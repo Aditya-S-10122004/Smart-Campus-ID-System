@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Campus ID System</title>
+    <link rel="stylesheet" href="/style/login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-box admin-login-box">
+        <div class="icon-box"><div class="icon">SDMCET</div></div>
+
+        <h1>Smart Campus System</h1>
+        <p class="subtext">Sign in as administrator</p>
+
+        <% if (message) { %>
+        <p class="error-msg"><%= message %></p>
+        <% } %>
+
+        <form action="/admin/login" method="POST" class="login-form" autocomplete="off" id="adminLoginForm">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="admin" required/>
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="password" required/>
+
+          <div class="checkbox-row" style="display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" id="isStaff" name="isStaff" value="1" />
+            <label for="isStaff" class="checkbox-label" style="cursor:pointer;">Are you a staff member ?</label>
+          </div>
+
+          <div id="staffSelectWrap" class="staff-select-wrap" aria-hidden="true">
+            <label for="staffSelect" style="display:block;margin-top:6px;margin-bottom:4px;">Select section (optional)</label>
+            <select id="staffSelect" name="staffSection" class="staff-select" aria-label="Select staff section" disabled>
+              <option value="">-- Select a section --</option>
+              <option value="/sdmcet/staff/mess">Mess</option>
+              <option value="/sdmcet/staff/gym">Gym</option>
+              <option value="/sdmcet/staff/sports">Indoor Sports</option>
+            </select>
+            <div id="staffInlineError" class="inline-error">Please select a section or uncheck "Are you a staff member?"</div>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top:12px;">Sign In</button>
+        </form>
+
+        <p class="signup-text">
+          <a href="/">← Back to user login</a>
+        </p>
+      </div>
+
+      <footer>
+        <p>Access gym, indoor sports, library, and mess facilities</p>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const checkbox = document.getElementById("isStaff");
+        const wrap = document.getElementById("staffSelectWrap");
+        const select = document.getElementById("staffSelect");
+        const form = document.getElementById("adminLoginForm");
+        const inlineError = document.getElementById("staffInlineError");
+
+        function toggleWrap(show) {
+          if (!wrap) return;
+          wrap.style.display = show ? "block" : "none";
+          wrap.setAttribute("aria-hidden", show ? "false" : "true");
+          select.disabled = !show;
+          inlineError.style.display = "none";
+          if (!show) select.selectedIndex = 0;
+        }
+
+        toggleWrap(Boolean(checkbox && checkbox.checked));
+
+        checkbox && checkbox.addEventListener("change", () => {
+          toggleWrap(checkbox.checked);
+        });
+
+        form && form.addEventListener("submit", function (e) {
+          if (checkbox && checkbox.checked) {
+            if (!select.value) {
+              e.preventDefault();
+              inlineError.style.display = "block";
+              select.focus();
+              return;
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

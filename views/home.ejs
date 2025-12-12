@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Campus ID System</title>
+    
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            if (document.body) document.body.classList.add("dark");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/home.css" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="page">
+      <div class="profile">
+        <div class="profile-left">
+          <!-- <%= user && user.fullname ? user.fullname.charAt(0).toUpperCase() :"A" %> -->
+           
+          <div class="avatar">
+            <% if (user && user.photo_data) { %>
+              <img src="/user/photo/<%= user.id %>"  style="width:60px; height:60px; border-radius:12px;">
+              <% } else {%>
+                <img src="/data/profile.png"  style="width:60px; height:60px;border-radius:12px;">
+            <% } %>
+          </div>
+
+          <div class="profile-info">
+            <h2>
+              <%= user && user.fullname ? user.fullname : "Student name" %>
+            </h2>
+            <p>
+              USN:
+              <strong
+                ><%= user && user.student_id ? user.student_id.toUpperCase() :
+                "Student USN" %></strong
+              >
+            </p>
+            <div class="badge">
+              <%= user && user.hostelite ? "Hostelite" : "Day Scholar" %>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="font-size: 16px; color: #6b7280">Wallet</div>
+          <div style="font-weight: 700; margin-top: 6px">
+            <%= user && user.wallet ? "₹"+user.wallet+".00" : "00.00" %>
+          </div>
+        </div>
+
+        <div style="text-align: center">
+          <div style="font-size: 16px; color: #6b7280">Email</div>
+          <div style="font-weight: 700; margin-top: 6px">
+            <%= user && user.email ? user.email : "aditya@example.com" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards">
+        <% if (user.hostelite) { %>
+          <a class="card mess" href="/sdmcet/mess" style="text-decoration: none;">
+            <div class="title">Mess Access</div>
+            <div class="value">Active</div>
+          </a>
+        <% } else {%>
+          <a class="card mess" href="/sdmcet/mess" style="text-decoration: none;">
+            <div class="title">Mess Access</div>
+            <div class="value">Book a meal</div>
+            <!-- <div class="action">Book a meal</div> -->
+          </a>
+        <% } %>
+
+        <% if (user.gym_active) { %>
+         <a class="card gym" href="/sdmcet/gym" style="background: linear-gradient(180deg, #15b36a, #0ea354);text-decoration: none;">
+          <div class="title">Gym Access</div>
+          <div class="value">Active</div>
+          <!-- <div class="action">Subscribe Now</div> -->
+        </a>
+        <% }else { %>
+          <a class="card gym" href="/sdmcet/gym" style="text-decoration: none;">
+            <div class="title">Gym Access</div>
+            <div class="value">Inactive</div>
+            <!-- <div class="action">Subscribe Now</div> -->
+        </a>
+        <% } %>
+
+        <% if (user.indoor_sports_active) { %>
+         <a class="card sports" href="/sdmcet/sports" style="background: linear-gradient(180deg, #15b36a, #0ea354);text-decoration: none;">
+          <div class="title">Indoor Sports</div>
+          <div class="value">Active</div>
+          <!-- <div class="action">Subscribe Now</div> -->
+        </a>
+        <% } else {%>
+          <a class="card sports" href="/sdmcet/sports" style="text-decoration: none;">
+            <div class="title">Indoor Sports</div>
+            <div class="value">Inactive</div>
+          <!-- <div class="action">Subscribe Now</div> -->
+        </a>
+        <% } %>
+
+        <!-- <a class="card library" href="/sdmcet/library" style="text-decoration: none;">
+          <div class="title">Library</div>
+          <div class="value">Not Subscribed</div>
+        </a> -->
+        <a class="card library" href="/sdmcet/contact" style="text-decoration: none;">
+          <div class="title">Contact Us</div>
+          <div class="value">Get in touch</div>
+          <!-- <div class="action">View Library</div> -->
+        </a>
+      </div>
+
+      <div class="transactions">
+        <h3>Recent Transactions</h3>
+
+        <ul class="tx-list">
+          <li class="tx-item">
+            <div class="left">
+              <div class="tx-icon">💸</div>
+              <div class="tx-meta">
+                <div style="font-weight: 700">Mess balance top-up of ₹500</div>
+                <div style="font-size: 13px; color: #94a3b8">
+                  4 Nov 2025, 11:26 pm
+                </div>
+              </div>
+            </div>
+            <div class="tx-amount">+ ₹500.00</div>
+          </li>
+
+          <li class="tx-item">
+            <div class="left">
+              <div class="tx-icon">📚</div>
+              <div class="tx-meta">
+                <div style="font-weight: 700">Library late fee</div>
+                <div style="font-size: 13px; color: #94a3b8">
+                  1 Oct 2025, 09:15 am
+                </div>
+              </div>
+            </div>
+            <div class="tx-amount" style="color: #f97316">- ₹50.00</div>
+          </li>
+
+          <li class="tx-item">
+            <div class="left">
+              <div class="tx-icon">🏋️‍♀️</div>
+              <div class="tx-meta">
+                <div style="font-weight: 700">Gym Subscription</div>
+                <div style="font-size: 13px; color: #94a3b8">
+                  1 Oct 2025, 09:15 am
+                </div>
+              </div>
+            </div>
+            <div class="tx-amount" style="color: #f97316">- ₹1500.00</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <%- include('footer') %>
+    <script>
+      document.addEventListener("click",()=>{
+        let mess = document.getElementsByClassName("mess")
+        
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Campus ID System</title>
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            if (document.body) document.body.classList.add("dark");
+          }
+        } catch (e) {
+          console.log("Error occured :" + e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/contact.css" />
+    <link rel="stylesheet" href="/style/home.css" />
+  </head>
+  <body>
+    <%- include('header') %>
+    <div class="clg-details">
+        <img class="clg-image" src="/data/SDMCET.jpg" alt="college-photo">
+        <div class="clg-address">
+            <h2 style="text-align: center;">Address</h2>
+            <strong>📍SDM College of Engineering and Technology,Kalaghatagi Road, Dharwad 580002</strong>
+            <strong>📞 0836 - 2447465</strong>
+            <strong>📞 Admission Helpline: (0836) 2255619/2464699</strong>
+            <strong>📞 Management Quota: 9611637191</strong>
+            <strong>🏆 CET/COMED-K: 7019853531</strong>
+            <strong>📩 principal@sdmcet.ac.in </strong>
+        </div>
+    </div>
+    <div class="location">
+        <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3845.9983227734547!2d75.01206347516852!3d15.430641885160096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d2f55d8d3f33%3A0x6f5b1e611213bba7!2sShri%20Dharmasthala%20Manjunatheshwara%20College%20of%20Engineering%20and%20Technology.!5e0!3m2!1sen!2sin!4v1765309497934!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <form action="/contact/details" method="post">
+            <h2 style="text-align: center;">Fill the below form to get in touch with us:</h2>
+            <input class="user-input fullName" id="fullName" type="text" name="fullName" placeholder="Full Name :" required>
+            <input class="user-input email" id="email" type="email" name="email" placeholder="Email Address :" required>
+            <input class="user-input mobilNumber" id="mobileNumber" type="text" maxlength="10" name="mobileNumber" placeholder="Mobile Number :" required>
+            <input class="user-input subject" id="subject" type="text" name="subject" placeholder="Subject :" required>
+            <input class="user-input message" id="message" type="text-area"name="message" placeholder="Message :">
+            <button type="submit" class="clg-btn">Submit</button>
+        </form>
+    </div>
+    <%- include('footer') %>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Campus ID - Gym</title>
+
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            if (document.body) document.body.classList.add("dark");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/beforeGym.css" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="container">
+      <div class="header-title">Gym Access</div>
+
+      <div class="gym-card">
+        <div class="title">Your Gym Subscription</div>
+
+        <div class="status">Status: <strong style="color: red;">Inactive</strong></div>
+
+        <div class="info-box">
+          <strong>What you get with Gym Access:</strong>
+          <ul>
+            <li>Access to all fitness equipment</li>
+            <li>Morning & evening workout batches</li>
+            <li>Locker & water facilities</li>
+            <li>Trainer support during active hours</li>
+          </ul>
+        </div>
+
+        <div class="info-box" style="margin-top: 20px;">
+          <strong>Availability:</strong>
+          <ul>
+            <li>Weekdays(Monday to Friday)</li>
+            <li>Closed on Saturday and Sunday</li>
+          </ul>
+        </div>
+
+        <button class="subscribe-btn">Subscribe Now</button>
+
+        <div class="section-title">Daily Schedule for Boys</div>
+
+        <table class="schedule-table">
+          <tr>
+            <th>Batch</th>
+            <th>Timings</th>
+          </tr>
+          <tr>
+            <td>Morning batch</td>
+            <td>5:30 AM - 7:30 AM</td>
+          </tr>
+          <tr>
+            <td>Evening batch</td>
+            <td>4:30 PM - 7:30 PM</td>
+          </tr>
+        </table>
+
+        <div class="section-title">Daily Schedule for Girls</div>
+
+        <table class="schedule-table">
+          <tr>
+            <th>Batch</th>
+            <th>Timings</th>
+          </tr>
+          <tr>
+            <td>Evening batch</td>
+            <td>3:00 PM - 4:30 PM</td>
+          </tr>
+        </table>
+
+        <div class="note">
+          * Please carry your ID Card before entering the gym.
+        </div>
+      </div>
+    </div>
+
+    <%- include('footer') %>
+  </body>
+</html>

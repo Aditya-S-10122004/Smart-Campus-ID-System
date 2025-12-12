@@ -1,0 +1,193 @@
+{
+  "sunday": {
+    "breakfast": [
+      "Plain Dosa",
+      "Sukka bhaji",
+      "Chutney",
+      "Aloo Parotha",
+      "Raitha",
+      "Sauce",
+      "Tea",
+      "(Alternatively)"
+    ],
+    "lunch": [
+      "Chapathi",
+      "Jowar roti",
+      "Vegetable Bhaji",
+      "Bisibele bath",
+      "White Rice",
+      "Dal",
+      "Sambar",
+      "Curds",
+      "Sweet"
+    ],
+    "snacks": ["Pava Bhaji", "Vada Pav", "Tea", "Coffee", "(Alternatively)"],
+    "dinner": [
+      "Chapathi",
+      "Jowar roti",
+      "Sprouted Moong/Mutter/Navratna/Moong Gravey",
+      "White Rice",
+      "Dal",
+      "Sambar",
+      "Curds",
+      "Papad",
+      "Triangle Papad",
+      "(Alternatively)"
+    ]
+  },
+  "monday": {
+    "breakfast": ["Idli", "Vada", "Sambar", "Chutney", "Coffee"],
+    "lunch": [
+      "Chapathi",
+      "Jowar roti",
+      "Vegetable Bhaji",
+      "Dal",
+      "Sambar",
+      "White Rice",
+      "Curds"
+    ],
+    "snacks": ["Mysore Bhajji", "Chutney", "Tea", "Coffee"],
+    "dinner": [
+      "Chapathi",
+      "Jowar roti",
+      "Dal",
+      "Red Lobiya Bhaji",
+      "White Rice",
+      "Kadi",
+      "Sambar",
+      "Curds",
+      "Milk (Bournvita)"
+    ]
+  },
+  "tuesday": {
+    "breakfast": [
+      "Puri",
+      "Kurma",
+      "Chutney",
+      "Chole batore",
+      "Tea",
+      "(Alternatively)"
+    ],
+    "lunch": [
+      "Chapati",
+      "Jowar roti",
+      "Vegetable Bhaji",
+      "Puliyogare",
+      "Dal",
+      "Sambar",
+      "White Rice",
+      "Curds"
+    ],
+    "snacks": ["Paper Poha Chuda", "Tea", "Coffee"],
+    "dinner": [
+      "Chapathi",
+      "Jowar roti",
+      "Navaratna Kurma",
+      "White Rice",
+      "Dal",
+      "Sambar",
+      "Curds"
+    ]
+  },
+  "wednesday": {
+    "breakfast": ["Bread", "Butter", "Jam", "Poha", "Curds", "Tea"],
+    "lunch": [
+      "Chapathi",
+      "Jowar roti",
+      "Vegetable Bhaji",
+      "Pitla",
+      "White Rice",
+      "Dal",
+      "Sambar",
+      "Curds"
+    ],
+    "snacks": ["Kanda Bhajji", "Chutney", "Tea", "Coffee"],
+    "dinner": [
+      "Chapathi",
+      "Jowar roti",
+      "Red channa bhaji",
+      "Dal",
+      "Sambar",
+      "White Rice",
+      "Curds",
+      "Shenga Chutney",
+      "Fruits"
+    ]
+  },
+  "thursday": {
+    "breakfast": ["Pulao", "raitha", "Coffee"],
+    "lunch": [
+      "Chapathi",
+      "Jowar roti",
+      "Vegetable Bhaji",
+      "Tomato Rice",
+      "Curd rice",
+      "sweet",
+      "(Alternatively)"
+    ],
+    "snacks": ["Churmuri", "Gol Bajji", "Tea", "Coffee", "(Alternatively)"],
+    "dinner": [
+      "Chapathi",
+      "Jowar roti",
+      "Dal",
+      "Matar Kofte Bhajji",
+      "Red Chilly Chutney",
+      "White Rice",
+      "Sambar",
+      "Curds"
+    ]
+  },
+  "friday": {
+    "breakfast": [
+      "Vermicelli Upama",
+      "Tomato Sauce",
+      "Buns",
+      "Kurma",
+      "Chutney",
+      "Tea",
+      "(Alternatively)"
+    ],
+    "lunch": [
+      "Chapathi",
+      "Jowar roti",
+      "White channa Bhajji",
+      "White Rice",
+      "Sambar",
+      "curds"
+    ],
+    "snacks": [
+      "Samosa",
+      "Sauce",
+      "Chuda chabakki",
+      "Tea",
+      "Coffee",
+      "(Alternatively)"
+    ],
+    "dinner": [
+      "Chapathi",
+      "Jowar roti",
+      "Potato Bhajji",
+      "Rice",
+      "White Rice",
+      "Dal",
+      "Sambar",
+      "Fruits",
+      "Milk (Bournvita)"
+    ]
+  },
+  "saturday": {
+    "breakfast": ["Sheera", "Upama", "curds", "Coffee"],
+    "lunch": [
+      "Puri",
+      "Paneer kurma Bhajji",
+      "Chutney",
+      "Vegetable Pulao",
+      "Raitha",
+      "White Rice",
+      "Sambar",
+      "Ice-cream"
+    ],
+    "snacks": ["MESS OFF"],
+    "dinner": ["MESS OFF"]
+  }
+}

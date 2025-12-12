@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Campus ID System</title>
+
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            if (document.body) document.body.classList.add("dark");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/sports.css" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div id="modal-backdrop"></div>
+
+    <div id="subscribe-panel">
+      <div style="font-size: 18px; font-weight: 600; margin-bottom: 10px">
+        Choose a Plan
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Full Year</td>
+            <td>
+              <button class="pay-plan-btn" data-amount="1800" type="button">
+                1800
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>SEM</td>
+            <td>
+              <button class="pay-plan-btn" data-amount="900" type="button">
+                900
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        id="sub-msg"
+        style="margin-top: 12px; display: none; font-size: 14px"
+      ></div>
+      <button id="close-subscribe" style="margin-top: 12px; border-radius: 8px;padding: 6px 14px">
+        Close
+      </button>
+    </div>
+
+    <div class="container">
+      <div class="header-title">Indoor Sports</div>
+
+      <div class="sports-card" style="margin-bottom: 20px;">
+        <div class="mess-card-img">
+          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+        </div>
+
+        <div id="morePhotos" class="hidden-img">
+          <div class="mess-card-img">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          </div>
+
+          <div class="mess-card-img">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          </div>
+        </div>
+        <button id="toggleBtn" class="see-more-btn">See More</button>
+      </div>
+
+      <div class="sports-card">
+        <div class="user-section">
+          <div class="user-details">
+            <h2>
+              <%= user && user.fullname ? user.fullname : "Student Name" %>
+            </h2>
+
+            <p>
+              Status:
+              <strong
+                class="<%= user && user.indoor_sports_active ? 'active' : 'inactive' %>"
+              >
+                <%= user && user.indoor_sports_active ? "ACTIVE" : "INACTIVE" %>
+              </strong>
+            </p>
+
+            <p style="margin-top: 6px; color: #6b7280">
+              USN:
+              <strong
+                ><%= user && user.student_id ? user.student_id.toUpperCase() :
+                "N/A" %></strong
+              >
+            </p>
+          </div>
+
+          <div class="actions">
+            <% if (user && user.indoor_sports_active) { %>
+            <form action="/sports/unsubscribe" method="POST">
+              <button class="cancel-btn" type="submit">
+                Cancel Subscription
+              </button>
+            </form>
+            <% } else { %>
+            <form action="/sports/subscribe" method="POST">
+              <button class="subscribe-btn" type="submit">Subscribe Now</button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+
+        <div id="wallet-display" style="margin-top: 8px; color: #374151">
+          Wallet: <strong id="wallet-amount"><%= user.wallet %></strong>
+        </div>
+
+        <div class="info-box">
+          <strong>Indoor Sports Facilities Available:</strong>
+          <ul>
+            <li>Badminton Court</li>
+            <li>Table Tennis</li>
+            <li>Carrom Boards</li>
+            <li>Chess Boards</li>
+            <li>Indoor Play Area</li>
+          </ul>
+        </div>
+
+        <div class="section-title">Available Timings</div>
+
+        <table class="schedule-table">
+          <tr>
+            <th>Batch</th>
+            <th>Timings</th>
+          </tr>
+          <tr>
+            <td>Morning</td>
+            <td>5:00 AM - 7:30 AM</td>
+          </tr>
+          <tr>
+            <td>Evening</td>
+            <td>4:00 PM - 9:00 PM</td>
+          </tr>
+        </table>
+
+        <div class="note">
+          * Please carry your ID card at the entry counter.
+        </div>
+      </div>
+    </div>
+
+    <%- include('footer') %>
+
+    <script>
+      var modal = document.getElementById("modal-backdrop");
+      var panel = document.getElementById("subscribe-panel");
+      var closeBtn = document.getElementById("close-subscribe");
+      var subMsg = document.getElementById("sub-msg");
+      var walletEl = document.getElementById("wallet-amount");
+
+      function openModal() {
+        modal.style.display = "block";
+        panel.style.display = "block";
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        modal.style.display = "none";
+        panel.style.display = "none";
+        subMsg.style.display = "none";
+        document.body.style.overflow = "";
+      }
+
+      modal.addEventListener("click", closeModal);
+      closeBtn.addEventListener("click", closeModal);
+
+      var openForms = document.querySelectorAll(
+        'form[action="/sports/subscribe"]'
+      );
+      openForms.forEach((f) => {
+        f.addEventListener("submit", function (e) {
+          e.preventDefault();
+          openModal();
+        });
+      });
+
+      var btns = document.querySelectorAll(".pay-plan-btn");
+      btns.forEach((b) => {
+        b.addEventListener("click", async function (e) {
+          var amount = Number(e.target.dataset.amount);
+          btns.forEach((x) => (x.disabled = true));
+          subMsg.style.display = "block";
+          subMsg.style.color = "#065f46";
+          subMsg.textContent = "Processing...";
+
+          try {
+            var r = await fetch("/sports/subscribe", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ amount }),
+            });
+            var data = await r.json();
+
+            if (!data.ok) {
+              subMsg.style.color = "#b91c1c";
+              subMsg.textContent = data.message;
+              btns.forEach((x) => (x.disabled = false));
+              return;
+            }
+
+            alert("Subscription successful!");
+            window.location.href = "/sdmcet/sports";
+          } catch (err) {
+            subMsg.style.color = "#b91c1c";
+            subMsg.textContent = "Network error";
+            btns.forEach((x) => (x.disabled = false));
+          }
+        });
+      });
+
+      const morePhotos = document.getElementById("morePhotos");
+      const toggleBtn = document.getElementById("toggleBtn");
+
+      toggleBtn.addEventListener("click", () => {
+        if (morePhotos.style.display === "none" || morePhotos.style.display === "") {
+          morePhotos.style.display = "block";
+          toggleBtn.textContent = "See Less";
+        } else {
+          morePhotos.style.display = "none";
+          toggleBtn.textContent = "See More";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="/style/headerFooter.css" />
+
+<div class="navbar">
+  <div class="nav-left">
+    <div class="brand">
+      <div class="logo">SDMCET</div>
+    </div>
+
+    <div class="nav-links" aria-hidden="true">
+      <a href="/sdmcet/home">Home</a>
+      <a href="/sdmcet/mess">Mess</a>
+      <a href="/sdmcet/gym">Gym</a>
+      <a href="/sdmcet/sports">Indoor Sports</a>
+      <!-- <a href="/sdmcet/library">Library</a> -->
+      <a href="/sdmcet/contact">Contact Us</a>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
+    <a class="signout" href="/logout">Sign Out</a>
+  </div>
+</div>
+
+<div class="college">
+  <p class="college-name">Shri Dharmasthala Manjunatheshwara College of Engineering & Technology, Dharwad</p>
+</div>
+
+<script>
+  (function () {
+    const themeToggle = document.getElementById("themeToggle");
+    
+    function setButtonText(isDark) {
+      if (!themeToggle) return;
+      themeToggle.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+    }
+
+    const saved = localStorage.getItem("sc_theme");
+    const isDarkSaved = saved === "dark";
+    if (isDarkSaved) {
+      document.documentElement.classList.add("dark");
+      if (document.body) document.body.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      if (document.body) document.body.classList.remove("dark");
+    }
+    setButtonText(isDarkSaved);
+
+    themeToggle && themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      if (isDark) document.body.classList.add("dark");
+      else document.body.classList.remove("dark");
+      localStorage.setItem("sc_theme", isDark ? "dark" : "light");
+      setButtonText(isDark);
+    });
+  })();
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname;
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active-link");
+      }
+    });
+    if(currentPath === "/sdmcet/home"){
+      const navLinks = document.querySelector(".nav-links");
+      if(navLinks){
+        navLinks.style.display = "none";
+      }
+    }
+  });
+</script>
+

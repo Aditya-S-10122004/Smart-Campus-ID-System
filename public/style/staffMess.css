@@ -1,0 +1,358 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: linear-gradient(180deg, #1f63d6, #1c55c0);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(25, 66, 146, 0.08);
+}
+
+.sm-brand {
+  width: 100px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #2d7ef7, #2a61e6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(22, 83, 216, 0.18);
+}
+
+.sm-header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.sm-theme-toggle {
+  background: rgba(255, 255, 255, 0.22);
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.sm-signout {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
+  color: #ff3b30;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.sm-main {
+  flex: 1;
+  padding: 30px 18px;
+  display: flex;
+  justify-content: center;
+}
+.sm-card {
+  width: 100%;
+  max-width: 980px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.sm-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.sm-user-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.sm-user-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+.sm-user-sub {
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.sm-scan-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.sm-scan-btn,
+.sm-stop-btn {
+  font-size: 15px;
+  background: #2d7ef7;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(45, 126, 247, 0.14);
+}
+.sm-stop-btn {
+  background: #c0392b;
+}
+
+.sm-video-wrap {
+  position: relative;
+  margin-top: 12px;
+  display: none;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+.sm-video-wrap.active {
+  display: block;
+  max-width: 480px;
+  margin-bottom: 14px;
+}
+#cameraPreview {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.sm-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin: 12px;
+}
+
+.sm-today-visits {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.sm-visits-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc(25% - 9px);
+  min-width: 160px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.sm-visits-name {
+  font-weight: 500;
+  font-size: 14px;
+  margin: 5px 10px;
+  color: #333;
+}
+.sm-visits-count {
+  color: #585454;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 5px 15px;
+}
+
+.sm-recent-title {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.sm-visit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+.sm-visit-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  flex-wrap: wrap;
+}
+.sm-visit-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.sm-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.sm-visit-item .sm-visit-left .sm-visit-item-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+.sm-visit-item .sm-visit-item-usn {
+  font-size: 14px;
+  color: #666;
+  display: block;
+}
+.sm-visit-middle {
+  color: #585454;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+}
+.sm-visit-right {
+  color: #2d7ef7;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sm-footer {
+  background: linear-gradient(180deg, #1f63d6, #1c55c0);
+  color: #fff;
+  text-align: center;
+  padding: 18px 0;
+  margin-top: 24px;
+}
+
+@media (max-width: 880px) {
+  .sm-visits-card {
+    width: calc(50% - 9px);
+  }
+}
+@media (max-width: 520px) {
+  .sm-visits-card {
+    width: 100%;
+  }
+  .sm-visit-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sm-visit-middle {
+    text-align: left;
+    order: 3;
+    width: 100%;
+  }
+  .sm-visit-right {
+    order: 2;
+  }
+}
+
+html.dark body,
+body.dark {
+  background: #0f1720;
+  color: #e6eef9;
+}
+
+html.dark .sm-header {
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+}
+
+html.dark .sm-brand {
+  background: linear-gradient(180deg, #1f5fd8, #1b4fc0);
+}
+
+html.dark .sm-card {
+  background: #0b1220;
+  color: #e6eef9;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+html.dark .sm-user-title {
+  color: #e6eef9;
+}
+html.dark .sm-user-sub {
+  color: #9aa6b2;
+}
+
+html.dark .sm-scan-btn {
+  background: #3ea0ff;
+  color: #fff;
+}
+html.dark .sm-stop-btn {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+html.dark .camera-select {
+  background: #0b1220;
+  color: #e6eef9;
+  border: 1px solid #3a4654;
+}
+
+html.dark .sm-video-wrap {
+  border: 1px solid #1e2733;
+}
+html.dark #cameraPreview {
+  background: #000;
+}
+
+html.dark .sm-visits-card {
+  background: #0b1220;
+  color: #e6eef9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+}
+
+html.dark .sm-visits-name {
+  color: #9aa6b2;
+}
+html.dark .sm-visits-count {
+  color: #e6eef9;
+}
+
+html.dark .sm-visit-item {
+  background: #0b1220;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+html.dark .sm-visit-item-name {
+  color: #e6eef9;
+}
+
+html.dark .sm-visit-item-usn {
+  color: #9aa6b2;
+}
+
+html.dark .sm-visit-middle {
+  color: #9aa6b2;
+}
+
+html.dark .sm-visit-right {
+  color: #3ea0ff;
+}
+
+html.dark .sm-thumb {
+  border: 1px solid #2c3a4a;
+}
+
+html.dark .sm-footer {
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+  color: #ffffff;
+}

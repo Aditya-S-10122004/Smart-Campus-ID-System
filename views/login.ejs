@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Campus ID System</title>
+    <link rel="stylesheet" href="/style/login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-box">
+        <div class="icon-box"><div class="icon">SDMCET</div></div>
+        <h1>Smart Campus System</h1>
+        <p class="subtext">Sign in as student</p>
+
+        <% if (message) { %> <% if (message === 'registered') { %>
+        <p class="info-msg">Registration successful. Please login.</p>
+        <% } else { %>
+        <p class="error-msg"><%= message %></p>
+        <% } %> <% } %>
+
+        <form action="/login" method="POST" class="login-form" autocomplete="off">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="abc@gmail.com" required/>
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="password" required/>
+
+          <button type="submit" class="btn">Sign In</button>
+        </form>
+
+        <p class="signup-text">
+          Are you an Admin ? <a href="/adminLogin">Sign in</a>
+        </p>
+      </div>
+
+      <footer>
+        <p>Access gym, indoor sports, library, and mess facilities</p>
+      </footer>
+    </div>
+  </body>
+</html>

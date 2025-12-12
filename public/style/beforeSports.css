@@ -1,0 +1,175 @@
+/* ---------- base (light) ---------- */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f8ff;
+  color: #0f1724;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.header-title {
+  background: #2a61e6;
+  padding: 18px;
+  border-radius: 12px;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.sports-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.status {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 14px;
+}
+
+.info-box {
+  padding: 15px;
+  background: #f0f6ff;
+  border-left: 5px solid #2a61e6;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.info-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.subscribe-btn {
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #2a61e6;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.section-title {
+  font-size: 20px;
+  margin-top: 30px;
+  font-weight: 700;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 12px;
+  border: 1px solid #ccd6e8;
+  text-align: left;
+}
+
+.schedule-table th {
+  background: #e5efff;
+  font-weight: 700;
+}
+
+.note {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #555;
+  background: #fff4d6;
+  padding: 12px;
+  border-left: 4px solid #f4b400;
+  border-radius: 6px;
+}
+
+/* ---------- dark theme ---------- */
+html.dark .header-title,
+body.dark .header-title {
+  background: linear-gradient(180deg, #244bb0, #183a88);
+}
+
+html.dark .sports-card,
+body.dark .sports-card {
+  background: #0f172a;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.6);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+html.dark .title,
+body.dark .title {
+  color: #e6eefc;
+}
+
+html.dark .status,
+body.dark .status {
+  color: #cbd5e1;
+}
+
+html.dark .info-box,
+body.dark .info-box {
+  background: rgba(255, 255, 255, 0.02);
+  border-left-color: #4d8df5;
+  color: #cbd5e1;
+}
+
+html.dark .info-box ul,
+body.dark .info-box ul {
+  color: #cbd5e1;
+}
+
+html.dark .subscribe-btn,
+body.dark .subscribe-btn {
+  background: linear-gradient(180deg, #4d86f6, #2a61e6);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(25, 66, 146, 0.12);
+}
+
+html.dark .section-title,
+body.dark .section-title {
+  color: #e6eefc;
+}
+
+html.dark .schedule-table th,
+body.dark .schedule-table th {
+  background: rgba(255, 255, 255, 0.02);
+  color: #e6eefc;
+  border-color: rgba(255, 255, 255, 0.03);
+}
+
+html.dark .schedule-table td,
+body.dark .schedule-table td {
+  color: #cbd5e1;
+  border-color: rgba(255, 255, 255, 0.03);
+}
+
+html.dark .note,
+body.dark .note {
+  background: rgba(255, 255, 255, 0.02);
+  color: #cbd5e1;
+  border-left-color: #f59e0b;
+}
+
+html.dark body,
+body.dark {
+  background: linear-gradient(90deg, #0f172a 0%, #111827 100%) !important;
+  color: #e2e8f0;
+}

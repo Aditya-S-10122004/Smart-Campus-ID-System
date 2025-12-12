@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Campus ID System</title>
+
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            document.body && document.body.classList.add("dark");
+          }
+        } catch (e) {
+            console.log(e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/library.css" />
+  </head>
+  <!-- <body class="<%= (typeof theme !== 'undefined' && theme === 'dark') ? 'dark' : '' %>"> -->
+    <%- include('header') %>
+
+    <div class="page">
+      <div class="header-title">Library</div>
+
+      <div class="card">
+
+        <div class="user-details">
+            <h2>
+              <%= user && user.fullname ? user.fullname : "Student Name" %>
+            </h2>
+
+            <p style="margin-top: 6px; color: #6b7280">
+              USN:
+              <strong><%= user && user.student_id ? user.student_id.toUpperCase() :"N/A" %></strong>
+          </p>
+        </div>
+
+        <div class="section">
+          <p class="muted">
+            Books Issued:
+            <strong
+              ><%= Array.isArray(borrowedBooks) ? borrowedBooks.length : 0
+              %></strong
+            >
+          </p>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Books Currently Borrowed</h2>
+
+          <div class="tblwrap">
+            <table class="timing-table" aria-label="Books currently borrowed">
+              <tr class="headrow">
+                <th>Title</th>
+                <th>Issued on</th>
+                <th>Due on</th>
+              </tr>
+
+              <% if (borrowedBooks && borrowedBooks.length > 0) { %> 
+              <% borrowedBooks.forEach(function(book){ %>
+              <tr>
+                <td><%= book.title %></td>
+                <td>
+                  <% try { %> 
+                  <%= (new Date(book.issued_on)).toLocaleDateString('en-GB') %> 
+                  <% }catch(e) { %> 
+                  <%= book.issued_on %> 
+                  <% } %>
+                </td>
+                <td>
+                  <% try { %> 
+                  <%= (new Date(book.due_on)).toLocaleDateString('en-GB') %> 
+                  <% } catch(e) { %> 
+                  <%= book.due_on %> 
+                  <% } %>
+                </td>
+              </tr>
+              <% }) %> 
+              <% } else { %>
+              <tr>
+                <td colspan="3" style="text-align: center; padding: 16px; color: #94a3b8">
+                  No books currently borrowed.
+                </td>
+              </tr>
+              <% } %>
+            </table>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Total Fine</h2>
+          <div class="fine-card" id="fineBox">
+            ₹ <%= (typeof totalFine !== 'undefined' && totalFine !== null) ? totalFine : 0 %>
+          </div>
+        </div>
+
+        <div class="notice">
+          Fine policy: ₹1/day for first 7 overdue days; ₹5/day after 7 days.
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Library Timings</h2>
+
+          <table class="timing-table" aria-label="Library timings">
+            <tr class="headrow">
+              <th>Day</th>
+              <th>Timing</th>
+            </tr>
+            <tr>
+              <td>Monday - Friday</td>
+              <td>8:00 AM - 8:00 PM</td>
+            </tr>
+            <tr>
+              <td>Saturday</td>
+              <td>9:00 AM - 5:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sunday</td>
+              <td>Closed</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Important Notice</h2>
+          <div class="notice">
+            * Please return all borrowed books before the end of the semester.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('footer') %>
+
+    <script id="__server_data" type="application/json">
+      <%- JSON.stringify({
+        borrowedBooks: borrowedBooks || [],
+        totalFine: (typeof totalFine !== 'undefined' ? totalFine : null)
+      }) %>
+    </script>
+
+    <script>
+      (function () {
+        try {
+          const raw = document.getElementById("__server_data").textContent;
+          const data = JSON.parse(raw);
+          const books = data.borrowedBooks || [];
+          const serverTotal = data.totalFine;
+
+          function daysLate(dueISO) {
+            const due = new Date(dueISO);
+            const today = new Date();
+            due.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+            const diff = Math.floor((today - due) / (1000 * 60 * 60 * 24));
+            return diff > 0 ? diff : 0;
+          }
+
+          function calcFine(days) {
+            if (days <= 0) return 0;
+            const first7 = Math.min(days, 7);
+            const rest = Math.max(0, days - 7);
+            return first7 * 1 + rest * 5;
+          }
+
+          if (serverTotal === null) {
+            let total = 0;
+            books.forEach((b) => {
+              total += calcFine(daysLate(b.due_on));
+            });
+            const el = document.getElementById("fineBox");
+            if (el) el.textContent = total === 0 ? "No dues" : "₹ " + total;
+          }
+        } catch (e) {
+          console.error("Library page JS error", e);
+        }
+      })();
+    </script>
+  </body>
+</html>

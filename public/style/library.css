@@ -1,0 +1,154 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  color: #0f1724;
+  background: linear-gradient(90deg, #f6fbff, #f0fff9);
+}
+
+html.dark .page,
+body.dark .page {
+  background: linear-gradient(90deg, #0f172a, #111827);
+  color: #e2e8f0;
+}
+
+
+.header-title {
+    background: #1f63d6;
+    padding: 18px;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 8px 26px rgba(16, 24, 40, 0.06);
+}
+
+.user-details h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.user-details p {
+  margin: 6px 0 0;
+  font-size: 16px;
+  color: #374151;
+}
+
+html.dark .card,
+body.dark .card {
+  background: #0f172a;
+}
+
+.small,
+.muted {
+  font-size: 15px;
+  color: #64748b;
+}
+html.dark .muted {
+  color: #94a3b8;
+}
+
+.section {
+  margin-top: 18px;
+}
+.section-title,
+.heading {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.table-wrap,
+.tblwrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.timing-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 480px;
+}
+.timing-table th,
+.timing-table td {
+  padding: 12px 14px;
+  border: 1px solid #d8e0ea;
+  text-align: left;
+  font-size: 15px;
+}
+.timing-table th {
+  background: #e5efff;
+  font-weight: 700;
+  color: #0b2545;
+}
+html.dark .timing-table th {
+  border-color: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.06);
+  color: #e6eefc;
+}
+html.dark .timing-table td {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+.timing-table .empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 14px;
+}
+
+.fine-card {
+  display: inline-block;
+  min-width: 150px;
+  padding: 12px 14px;
+  background: #2d7ef7;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+html.dark .fine-card {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
+}
+
+.notice {
+  margin-top: 12px;
+  padding: 12px;
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(180deg, #fff7ed, #fffaf0);
+  border-radius: 6px;
+  color: #1f2937;
+}
+html.dark .notice {
+  background: rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+}
+
+@media (max-width: 760px) {
+  .timing-table th,
+  .timing-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .header-title {
+    font-size: 20px;
+    padding: 14px;
+  }
+  .fine-card {
+    width: 100%;
+    text-align: center;
+  }
+}

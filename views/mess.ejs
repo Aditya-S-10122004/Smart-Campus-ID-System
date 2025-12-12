@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Campus ID System</title>
+
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            if (document.body) document.body.classList.add("dark");
+          }
+        } catch (e) {
+          console.log("Error occured :" + e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/mess.css" />
+    <link rel="stylesheet" href="/style/home.css" />
+  </head>
+  <body>
+    <%- include('header') %>
+
+    <div class="container">
+      <div class="header-title">Mess</div>
+
+      <div class="mess-card" style="margin-bottom: 20px;">
+        <div class="mess-card-img">
+          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+        </div>
+
+        <div id="morePhotos" class="hidden-img">
+          <div class="mess-card-img">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          </div>
+
+          <div class="mess-card-img">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
+          </div>
+        </div>
+        <button id="toggleBtn" class="see-more-btn">See More</button>
+      </div>
+
+      <div class="mess-card">
+        <div class="user-details">
+          <div>
+            <h2>
+              <%= user && user.fullname ? user.fullname : "Student Name" %>
+            </h2>
+
+            <p>
+              Status:
+              <strong
+                class="<%= user && user.hostelite ? 'is-hostel' : 'non-hostel' %>"
+              >
+                <%= user && user.hostelite ? "Hostelite" : "Day Scholar" %>
+              </strong>
+            </p>
+
+            <p style="margin-top: 6px; color: #6b7280">
+              USN:
+              <strong
+                ><%= user && user.student_id ? user.student_id.toUpperCase() :
+                "N/A" %></strong
+              >
+            </p>
+            <% if(!user.hostelite){ %>
+              <p id="booking-summary" style="margin-top: 6px; color: #374151">
+                <% if (typeof bookedParticular !== 'undefined' &&
+                bookedParticular) { %> Booked:
+                <strong id="booked-particular"><%= bookedParticular %></strong>
+                <% } else { %>
+                <em id="no-booking-placeholder">No bookings</em>
+                <% } %>
+              </p>
+              <% } %>
+          </div>
+
+          <% if(!user.hostelite){ %>
+            <div class="wallet-box" id="wallet-box">
+              <span class="label">Wallet</span>
+              <span class="amount" id="wallet-amount"
+                >₹<%= (user && typeof user.wallet !== 'undefined') ?
+                Number(user.wallet).toFixed(2) : '0.00' %></span>
+            </div>
+          <% } %>
+        </div>
+
+        <% if (!user.hostelite) { %>
+
+        <div class="section-title">Mess Charges</div>
+        <table class="timing-table">
+          <thead>
+            <tr>
+              <th>Particulars</th>
+              <th>Amount (Rs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Breakfast</td>
+              <td>60</td>
+            </tr>
+            <tr>
+              <td>Lunch</td>
+              <td>70</td>
+            </tr>
+            <tr>
+              <td>Snacks</td>
+              <td>30</td>
+            </tr>
+            <tr>
+              <td>Dinner</td>
+              <td>70</td>
+            </tr>
+            <tr>
+              <td>Saturday Lunch</td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td>Sunday Breakfast</td>
+              <td>70</td>
+            </tr>
+            <tr>
+              <td>One day mess charge</td>
+              <td>150</td>
+            </tr>
+          </tbody>
+        </table>
+        <% } %>
+
+        <div class="section-title">Today's Menu</div>
+
+        <div class="menu-card">
+          <div class="meal-title">Breakfast</div>
+          <div id="menu-breakfast"><em>Loading...</em></div>
+
+          <div class="meal-title" style="margin-top: 18px">Lunch</div>
+          <div id="menu-lunch"><em>Loading...</em></div>
+
+          <div class="meal-title" style="margin-top: 18px">Snacks</div>
+          <div id="menu-snacks"><em>Loading...</em></div>
+
+          <div class="meal-title" style="margin-top: 18px">Dinner</div>
+          <div id="menu-dinner"><em>Loading...</em></div>
+        </div>
+
+        <div class="section-title">Mess Timings</div>
+        <table class="timing-table">
+          <tr>
+            <th>Meal</th>
+            <th>Time</th>
+          </tr>
+          <tr>
+            <td>Breakfast</td>
+            <td>7:30 AM - 9:30 AM</td>
+          </tr>
+          <tr>
+            <td>Lunch</td>
+            <td>12:30 PM - 2:30 PM</td>
+          </tr>
+          <tr>
+            <td>Snacks</td>
+            <td>4:30 PM - 6:30 PM</td>
+          </tr>
+          <tr>
+            <td>Dinner</td>
+            <td>7:30 PM - 9:30 PM</td>
+          </tr>
+        </table>
+
+        <div class="note">* On saturday , there will be no dinner.</div>
+
+        <div class="note">
+          * Please carry your ID card at the entry counter.
+        </div>
+
+        <% if (!user.hostelite) { %>
+
+        <div class="section-title">Book Your Meal</div>
+        <div class="meal-booking">
+          <div>Book your meal in advance to avoid long queues.</div>
+          <button class="book-btn" id="open-booking-btn">Book Meal</button>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <%- include('footer') %> 
+    <% if (!user.hostelite) { %>
+    <div class="overlay" id="booking-overlay" aria-hidden="true">
+      <div
+        class="booking-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="booking-title"
+      >
+        <h3 id="booking-title">Book a Meal</h3>
+
+        <div id="booking-message" style="min-height: 20px"></div>
+
+        <table class="booking-table" aria-describedby="booking-title">
+          <thead>
+            <tr>
+              <th>Particulars</th>
+              <th>Amount (Rs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Breakfast</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="Breakfast"
+                  data-amount="60"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  60
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Lunch</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="Lunch"
+                  data-amount="70"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  70
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Snacks</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="Snacks"
+                  data-amount="30"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  30
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Dinner</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="Dinner"
+                  data-amount="70"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  70
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Saturday lunch</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="Saturday lunch"
+                  data-amount="100"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  100
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Sunday breakfast</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="Sunday breakfast"
+                  data-amount="70"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  70
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>One day mess charge</td>
+              <td>
+                <button
+                  class="pay-btn"
+                  data-particular="One day mess charge"
+                  data-amount="150"
+                  style="background: #2a61e6; color: #fff"
+                >
+                  150
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <button class="close-btn" id="close-booking-btn">Close</button>
+          <div
+            id="overlay-feedback"
+            style="font-size: 13px; color: #374151"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+    <script>
+
+      const morePhotos = document.getElementById("morePhotos");
+      const toggleBtn = document.getElementById("toggleBtn");
+
+      toggleBtn.addEventListener("click", () => {
+        if (morePhotos.style.display === "none" || morePhotos.style.display === "") {
+          morePhotos.style.display = "block";
+          toggleBtn.textContent = "See Less";
+        } else {
+          morePhotos.style.display = "none";
+          toggleBtn.textContent = "See More";
+        }
+      });
+
+      (function () {
+        function getWeekdayKey(date = new Date()) {
+          return date
+            .toLocaleDateString("en-US", { weekday: "long" })
+            .toLowerCase();
+        }
+
+        async function loadMenu() {
+          try {
+            const res = await fetch("/data/menu.json", {
+              cache: "no-store",
+            });
+            const data = await res.json();
+
+            const todayKey = getWeekdayKey();
+            const todayMenu = data[todayKey] || {};
+
+            function renderItems(elementId, items) {
+              const el = document.getElementById(elementId);
+              if (!el) return;
+
+              if (!items || items.length === 0) {
+                el.innerHTML = "<em>Menu unavailable</em>";
+                return;
+              }
+
+              el.innerHTML =
+                "<ul class='menu-list'>" +
+                items.map((i) => `<li>${i}</li>`).join("") +
+                "</ul>";
+            }
+
+            renderItems("menu-breakfast", todayMenu.breakfast);
+            renderItems("menu-lunch", todayMenu.lunch);
+            renderItems("menu-snacks", todayMenu.snacks);
+            renderItems("menu-dinner", todayMenu.dinner);
+          } catch (err) {
+            console.log("Menu load error:", err);
+            [
+              "menu-breakfast",
+              "menu-lunch",
+              "menu-snacks",
+              "menu-dinner",
+            ].forEach((id) => {
+              const el = document.getElementById(id);
+              if (el) el.innerHTML = "<em>Menu unavailable</em>";
+            });
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", loadMenu);
+        } else {
+          loadMenu();
+        }
+      })();
+    </script>
+
+    <script>
+      (function () {
+        const openBtn = document.getElementById("open-booking-btn");
+        const overlay = document.getElementById("booking-overlay");
+        const closeBtn = document.getElementById("close-booking-btn");
+        const payButtons = document.querySelectorAll(".pay-btn");
+        const walletAmountEl = document.getElementById("wallet-amount");
+        const bookingSummaryEl = document.getElementById("booking-summary");
+        const bookedParticularEl = document.getElementById("booked-particular");
+        const noBookingPlaceholder = document.getElementById(
+          "no-booking-placeholder"
+        );
+        const overlayFeedback = document.getElementById("overlay-feedback");
+
+        if (openBtn) {
+          openBtn.addEventListener("click", () => {
+            overlay.classList.add("active");
+            overlay.setAttribute("aria-hidden", "false");
+            overlayFeedback.textContent = "";
+          });
+        }
+
+        if (closeBtn) {
+          closeBtn.addEventListener("click", () => {
+            overlay.classList.remove("active");
+            overlay.setAttribute("aria-hidden", "true");
+          });
+        }
+
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) {
+            overlay.classList.remove("active");
+            overlay.setAttribute("aria-hidden", "true");
+          }
+        });
+
+        function updateWalletUI(newAmount) {
+          if (walletAmountEl)
+            walletAmountEl.textContent = "₹" + Number(newAmount).toFixed(2);
+        }
+
+        function setBookedParticular(particular) {
+          if (particular) {
+            if (noBookingPlaceholder)
+              noBookingPlaceholder.style.display = "none";
+            if (bookedParticularEl) {
+              bookedParticularEl.textContent = particular;
+            } else {
+              const p = document.getElementById("booking-summary");
+              if (p)
+                p.innerHTML =
+                  'Booked: <strong id="booked-particular">' +
+                  particular +
+                  "</strong>";
+            }
+          } else {
+            if (bookedParticularEl) bookedParticularEl.textContent = "";
+            if (noBookingPlaceholder) noBookingPlaceholder.style.display = "";
+          }
+        }
+
+        payButtons.forEach((btn) => {
+          btn.addEventListener("click", async (e) => {
+            const particular = btn.getAttribute("data-particular");
+            const amount = Number(btn.getAttribute("data-amount"));
+
+            btn.disabled = true;
+            const prevText = btn.textContent;
+            btn.textContent = "Processing...";
+            overlayFeedback.textContent = "";
+
+            try {
+              const res = await fetch("/api/mess/book", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ item: particular, amount: amount }),
+              });
+
+              const data = await res.json().catch(() => null);
+
+              if (!res.ok) {
+                overlayFeedback.className = "booking-error";
+                overlayFeedback.textContent =
+                  data && (data.message || data.error)
+                    ? data.message || data.error
+                    : "Booking failed";
+              } else if (data && data.ok) {
+                if (typeof data.wallet !== "undefined")
+                  updateWalletUI(data.wallet);
+                setBookedParticular(particular);
+                overlayFeedback.className = "booking-status";
+                overlayFeedback.textContent =
+                  "Booked " + particular + " successfully.";
+                setTimeout(() => {
+                  overlay.classList.remove("active");
+                }, 700);
+              } else {
+                overlayFeedback.className = "booking-error";
+                overlayFeedback.textContent =
+                  data && (data.message || data.error)
+                    ? data.message || data.error
+                    : "Unable to book";
+              }
+            } catch (err) {
+              console.error("Booking error:", err);
+              overlayFeedback.className = "booking-error";
+              overlayFeedback.textContent = "Network or server error";
+            } finally {
+              btn.disabled = false;
+              btn.textContent = prevText;
+            }
+          });
+        });
+
+        async function fetchCurrentBooking() {
+          try {
+            const res = await fetch("/api/mess/booking-status", {
+              cache: "no-store",
+            });
+            if (!res.ok) return;
+            const data = await res.json().catch(() => null);
+            if (!data) return;
+            if (data && data.booked) {
+              setBookedParticular(data.booked);
+            } else {
+              setBookedParticular(null);
+            }
+            if (typeof data.wallet !== "undefined") updateWalletUI(data.wallet);
+          } catch (e) {
+            console.log("Could not fetch current booking/wallet", e);
+          }
+        }
+
+        fetchCurrentBooking();
+      })();
+    </script>
+  </body>
+</html>

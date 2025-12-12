@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Campus ID - Sports</title>
+
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("sc_theme");
+          if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            if (document.body) document.body.classList.add("dark");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/style/headerFooter.css" />
+    <link rel="stylesheet" href="/style/beforeSports.css" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="container">
+      <div class="header-title">Indoor Sports Access</div>
+
+      <div class="sports-card">
+        <div class="title">Your Indoor Sports Subscription</div>
+
+        <div class="status">Status: <strong style="color: red;">Inactive</strong></div>
+
+        <div class="info-box">
+          <strong>What you get with Indoor Sports Access:</strong>
+          <ul>
+            <li>Access to Badminton</li>
+            <li>Access to Table Tennis</li>
+            <li>Access to Carrom boards</li>
+            <li>Access to Chess boards</li>
+            <li>Indoor play area & equipment</li>
+          </ul>
+        </div>
+
+        <button class="subscribe-btn">Subscribe Now</button>
+
+        <div class="section-title">Available Timings</div>
+
+        <table class="schedule-table">
+          <tr>
+            <th>Batch</th>
+            <th>Timing</th>
+          </tr>
+          <tr>
+            <td>Morning batch</td>
+            <td>5:00 AM - 7:30 AM</td>
+          </tr>
+          <tr>
+            <td>Evening batch</td>
+            <td>4:00 PM - 9:00 PM</td>
+          </tr>
+        </table>
+
+        <div class="note">
+          * Please carry your ID card to access indoor sports
+          facilities.
+        </div>
+      </div>
+    </div>
+
+    <%- include('footer') %>
+  </body>
+</html>

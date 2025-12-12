@@ -1,0 +1,259 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  color: #0f1724;
+  box-sizing: border-box;
+}
+
+body.dark {
+  background: #071426;
+  color: #e6eef6;
+}
+
+.header {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #2d7ef7;
+  color: #fff;
+  position: relative;
+  z-index: 50;
+}
+body.dark .header {
+  background: #0b2540;
+}
+
+.logo {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.header-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn {
+  background: #2d7ef7;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn.theme {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.signout {
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #ff3b30;
+  background: rgba(255, 255, 255, 0.06);
+  font-weight: 700;
+}
+body.dark .signout {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ff8b80;
+}
+
+.heading-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(234, 17, 17);
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0px auto;
+  padding: 16px;
+  padding-bottom: 100px;
+  background: transparent;
+}
+
+.stats {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.card {
+  flex: 1 1 220px;
+  background: #fff;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.05);
+}
+body.dark .card {
+  background: #071027;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+}
+
+.card h3 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  color: #64748b;
+}
+body.dark .card h3 {
+  color: #9aa6b2;
+}
+.card .big {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.panel {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 12px;
+  box-shadow: 0 8px 26px rgba(16, 24, 40, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+body.dark .panel {
+  background: #071027;
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 12px 0 6px 0;
+}
+.row {
+  display: flex;
+  gap: 12px;
+}
+.row .col {
+  flex: 1;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 95%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6eef8;
+  font-size: 14px;
+  background: #fff;
+  color: #0f1724;
+}
+body.dark input[type="text"],
+body.dark input[type="number"],
+body.dark input[type="email"],
+body.dark input[type="password"],
+body.dark select {
+  background: rgba(255, 255, 255, 0.02);
+  color: #e6eef6;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.file-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.file-preview {
+  width: 120px;
+  height: 80px;
+  border-radius: 8px;
+  background: #f3f6fb;
+  border: 1px dashed #d9e6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 13px;
+  overflow: hidden;
+}
+body.dark .file-preview {
+  background: rgba(255, 255, 255, 0.02);
+  color: #9aa6b2;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+#cameraVideo {
+  display: none;
+  width: 320px;
+  height: 240px;
+  border-radius: 8px;
+  background: #000;
+  margin-top: 10px;
+}
+
+.hint {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 6px;
+}
+body.dark .hint {
+  color: #9aa6b2;
+}
+
+.submit {
+  background: #2d7ef7;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+footer.site-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  line-height: 56px;
+  background: #2d7ef7;
+  color: #fff;
+  text-align: center;
+  z-index: 9999;
+}
+body.dark footer.site-footer {
+  background: #03121a;
+}
+
+@media (max-width: 760px) {
+  .row {
+    flex-direction: column;
+  }
+  .stats {
+    flex-direction: column;
+  }
+  #cameraVideo {
+    width: 240px;
+    height: 180px;
+  }
+}
+
+.card,
+.panel,
+.file-preview {
+  background-clip: padding-box;
+}

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Campus ID System</title>
+    <link rel="stylesheet" href="/style/admin-dashboard.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">SDMCET</div>
+      <div class="header-right">
+        <button id="themeToggle" class="btn theme">
+          <span id="themeIcon">🌙</span>
+          <span id="themeText">Dark</span>
+        </button>
+        <a href="/logout" class="signout">Sign Out</a>
+      </div>
+    </header>
+
+    <div class="heading-name">
+      Shri Dharmasthala Manjunatheshwara College of Engineering & Technology,
+      Dharwad
+    </div>
+
+    <div class="wrap">
+      <div class="stats" role="region" aria-label="summary cards">
+        <div class="card">
+          <h3>Total students</h3>
+          <div class="big" id="totalStudents"><%= totalStudents || '0' %></div>
+        </div>
+
+        <div class="card">
+          <h3>Hostelite</h3>
+          <div class="big" id="hostelite"><%= hostelite || '0' %></div>
+        </div>
+
+        <div class="card">
+          <h3>Day scholar</h3>
+          <div class="big" id="dayScholar"><%= dayScholar || '0' %></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label style="font-weight: 700; margin-left: 3px; margin-right: 8px"
+          >Register</label
+        >
+        <select
+          id="regType"
+          style="padding: 10px; width: 15%; border-radius: 8px"
+          hidden="true"
+        >
+          <option value="user">User (Student)</option>
+          <option value="admin">Admin (Staff)</option>
+        </select>
+      </div>
+
+      <div class="panel" id="regPanel">
+        <form
+          id="regForm"
+          enctype="multipart/form-data"
+          method="post"
+          action="/admin/create"
+        >
+          <div id="userFields">
+            <div class="row">
+              <div class="col">
+                <label for="fullname">Full name</label>
+                <input
+                  id="fullname"
+                  name="fullname"
+                  type="text"
+                  placeholder="e.g. John Snow"
+                  required
+                />
+              </div>
+              <div class="col">
+                <label for="usn">USN</label>
+                <input
+                  id="usn"
+                  name="student_id"
+                  type="text"
+                  placeholder="e.g. 2SD23IS100"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px">
+              <div class="col">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="abc@example.com"
+                  required
+                />
+              </div>
+              <div class="col">
+                <label for="password">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Choose a password"
+                />
+              </div>
+            </div>
+
+            <div style="margin-top: 10px">
+              <label for="hostelSelect">Student type</label>
+              <select
+                id="hostelSelect"
+                name="hostelite"
+                required
+                style="width: 200px"
+              >
+                <option value="false">Day scholar</option>
+                <option value="true">Hostelite</option>
+              </select>
+            </div>
+
+            <div style="margin-top: 12px">
+              <label>Capture face photo</label>
+
+              <div class="file-row">
+                <div class="file-preview" id="facePreview">No photo</div>
+
+                <div style="display: flex; gap: 8px; margin-top: 6px">
+                  <button type="button" id="openCamBtn" class="btn">
+                    Open Camera
+                  </button>
+                  <button
+                    type="button"
+                    id="captureBtn"
+                    class="btn"
+                    style="display: none"
+                  >
+                    Capture
+                  </button>
+                  <button
+                    type="button"
+                    id="retakeBtn"
+                    class="btn"
+                    style="display: none"
+                  >
+                    Retake
+                  </button>
+                  <button
+                    type="button"
+                    id="closeCamBtn"
+                    class="btn"
+                    style="display: none"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <input
+                  id="faceFile"
+                  name="photo"
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                />
+                <video id="cameraVideo" autoplay playsinline></video>
+                <canvas
+                  id="captureCanvas"
+                  width="640"
+                  height="480"
+                  style="display: none"
+                ></canvas>
+
+                <div class="hint">Use your laptop camera or a webcam.</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="adminFields"
+            style="display: none; width: 50%; margin-top: 10px"
+          >
+            <label for="adminUsername">Username</label>
+            <input
+              id="adminUsername"
+              name="username"
+              type="text"
+              placeholder="admin user"
+            />
+
+            <label for="adminPassword" style="margin-top: 8px">Password</label>
+            <input
+              id="adminPassword"
+              name="adminPassword"
+              type="password"
+              placeholder="password"
+            />
+            <div class="hint">Admin registrations will create staff users.</div>
+          </div>
+
+          <div style="margin-top: 14px">
+            <button type="submit" class="submit">Create</button>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <label style="font-weight: 700; margin-left: 3px; margin-right: 8px"
+          >Add Amount</label
+        >
+      </div>
+
+      <div class="panel" id="amountPanel">
+        <form action="/admin/add/amount" id="amountForm" method="post">
+          <div class="row">
+            <div class="col">
+              <label for="amountUSN">USN</label>
+              <input
+                type="text"
+                id="amountUSN"
+                name="amountUSN"
+                placeholder="2SD23IS100"
+                required
+              />
+            </div>
+
+            <div class="col">
+              <label for="amountValue">Amount</label>
+              <input
+                type="number"
+                id="amountValue"
+                name="amountValue"
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <button
+              type="submit"
+              id="amountSubmit"
+              class="btn"
+              style="margin-top: 15px"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="site-footer">SDMCET | © 2025 Smart Campus ID System</footer>
+
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem("sc_theme") === "dark")
+            document.body.classList.add("dark");
+        } catch (e) {
+          console.log(e);
+        }
+
+        var themeBtn = document.getElementById("themeToggle");
+        var themeIcon = document.getElementById("themeIcon");
+        var themeText = document.getElementById("themeText");
+
+        function updateTheme() {
+          var d = document.body.classList.contains("dark");
+          themeText.textContent = d ? "Light" : "Dark";
+          themeIcon.textContent = d ? "🌞" : "🌙";
+          themeBtn.setAttribute("aria-pressed", String(d));
+        }
+        updateTheme();
+
+        themeBtn.addEventListener("click", function () {
+          document.body.classList.toggle("dark");
+          try {
+            localStorage.setItem(
+              "sc_theme",
+              document.body.classList.contains("dark") ? "dark" : "light"
+            );
+          } catch (e) {
+            console.log(e);
+          }
+          updateTheme();
+        });
+
+        var regType = document.getElementById("regType");
+        var userFields = document.getElementById("userFields");
+        var adminFields = document.getElementById("adminFields");
+
+        function disableInputs(container, disabled) {
+          if (!container) return;
+          const controls = container.querySelectorAll(
+            "input, select, textarea"
+          );
+          controls.forEach((el) => {
+            if (el.type === "button" || el.type === "submit") return;
+            el.disabled = !!disabled;
+          });
+        }
+
+        function switchForm() {
+          if (regType.value === "user") {
+            userFields.style.display = "";
+            adminFields.style.display = "none";
+
+            disableInputs(userFields, false);
+            disableInputs(adminFields, true);
+
+            document.getElementById("fullname").required = true;
+            document.getElementById("usn").required = true;
+            document.getElementById("email").required = true;
+            document.getElementById("password").required = true;
+            document.getElementById("hostelSelect").required = true;
+            document.getElementById("faceFile").required = true;
+            document.getElementById("adminUsername").required = false;
+            document.getElementById("adminPassword").required = false;
+          } else {
+            userFields.style.display = "none";
+            adminFields.style.display = "";
+
+            disableInputs(userFields, true);
+            disableInputs(adminFields, false);
+
+            document.getElementById("fullname").required = false;
+            document.getElementById("usn").required = false;
+            document.getElementById("email").required = false;
+            document.getElementById("password").required = false;
+            document.getElementById("hostelSelect").required = false;
+            document.getElementById("faceFile").required = false;
+
+            document.getElementById("adminUsername").required = true;
+            document.getElementById("adminPassword").required = true;
+          }
+        }
+        regType.addEventListener("change", switchForm);
+
+        switchForm();
+
+        var openCamBtn = document.getElementById("openCamBtn");
+        var captureBtn = document.getElementById("captureBtn");
+        var retakeBtn = document.getElementById("retakeBtn");
+        var closeCamBtn = document.getElementById("closeCamBtn");
+        var video = document.getElementById("cameraVideo");
+        var canvas = document.getElementById("captureCanvas");
+        var faceFile = document.getElementById("faceFile");
+        var facePreview = document.getElementById("facePreview");
+        var stream = null;
+
+        async function startCamera() {
+          try {
+            stream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: "user" },
+              audio: false,
+            });
+            video.srcObject = stream;
+            video.style.display = "block";
+            captureBtn.style.display = "inline-block";
+            closeCamBtn.style.display = "inline-block";
+            openCamBtn.style.display = "none";
+            facePreview.textContent = "Live camera...";
+            facePreview.style.backgroundImage = "";
+          } catch (err) {
+            alert(
+              "Cannot access camera. Allow camera access and use https or localhost."
+            );
+            console.error(err);
+          }
+        }
+
+        if (message) {
+          alert(JSON.stringify(message));
+        }
+
+        function stopCamera() {
+          if (stream) {
+            stream.getTracks().forEach(function (t) {
+              t.stop();
+            });
+            stream = null;
+          }
+          video.srcObject = null;
+          video.style.display = "none";
+          captureBtn.style.display = "none";
+          closeCamBtn.style.display = "none";
+          openCamBtn.style.display = "inline-block";
+        }
+
+        function dataURLtoFile(dataurl, filename) {
+          var arr = dataurl.split(",");
+          var mime = arr[0].match(/:(.*?);/)[1];
+          var bstr = atob(arr[1]);
+          var n = bstr.length;
+          var u8 = new Uint8Array(n);
+          while (n--) u8[n] = bstr.charCodeAt(n);
+          return new File([u8], filename, { type: mime });
+        }
+
+        function setPreview(dataurl) {
+          facePreview.style.backgroundImage = "url(" + dataurl + ")";
+          facePreview.style.backgroundSize = "cover";
+          facePreview.style.backgroundPosition = "center";
+          facePreview.textContent = "";
+        }
+
+        openCamBtn.addEventListener("click", startCamera);
+
+        captureBtn.addEventListener("click", function () {
+          var ctx = canvas.getContext("2d");
+          canvas.width = video.videoWidth || 640;
+          canvas.height = video.videoHeight || 480;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          var dataurl = canvas.toDataURL("image/jpeg", 0.9);
+          var file = dataURLtoFile(dataurl, "face_" + Date.now() + ".jpg");
+
+          try {
+            var dt = new DataTransfer();
+            dt.items.add(file);
+            faceFile.files = dt.files;
+          } catch (e) {
+            console.warn("DataTransfer not supported", e);
+          }
+
+          setPreview(dataurl);
+          retakeBtn.style.display = "inline-block";
+          captureBtn.style.display = "none";
+          closeCamBtn.style.display = "none";
+          video.style.display = "none";
+          stopCamera();
+        });
+
+        retakeBtn.addEventListener("click", function () {
+          faceFile.value = "";
+          facePreview.style.backgroundImage = "";
+          facePreview.textContent = "No photo";
+          retakeBtn.style.display = "none";
+          startCamera();
+        });
+
+        closeCamBtn.addEventListener("click", function () {
+          stopCamera();
+          facePreview.textContent = "No photo";
+        });
+
+        window.addEventListener("beforeunload", stopCamera);
+      })();
+    </script>
+  </body>
+</html>
