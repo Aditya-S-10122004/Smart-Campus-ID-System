@@ -1,0 +1,43 @@
+# OS-specific artifacts
+.DS_Store
+Thumbs.db
+
+# Dependencies
+/node_modules
+/jspm_packages
+
+# Testing
+/coverage
+
+# Production/Build artifacts
+/build
+/dist
+/out
+/public
+/release
+/tmp
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE/Editor specific files
+.idea/
+.vscode/
+*.swp
+*.bak
+*~.nib
+.vagrant/
+.c9/
+
+# Environment files
+.env
+.env.*
+.local
+.DS_Store
