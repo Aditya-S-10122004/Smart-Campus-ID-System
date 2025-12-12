@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: smart-campus-id-web
+    env: node
+    plan: free
+    repo: https://github.com/Aditya-S-10122004/Smart-Campus-ID-System
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: smart-campus-id-db
+    engine: postgres
+    plan: starter
