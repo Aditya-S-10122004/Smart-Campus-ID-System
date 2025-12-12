@@ -21,12 +21,30 @@ const app = express();
 const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
 
-const pool = new Pool({
-  user: process.env.DATABASE_USER,
-  host: process.env.DATABASE_HOST || "localhost",
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_PASSWORD,
-  port: process.env.DATABASE_PORT ? Number(process.env.DATABASE_PORT) : 5432,
+// Prefer a single DATABASE_URL (Render provides this). Fall back to individual vars for local dev.
+const databaseUrl = process.env.DATABASE_URL;
+
+const pool = databaseUrl
+  ? new Pool({
+      connectionString: databaseUrl,
+      // Many hosted Postgres providers require SSL; this avoids certificate validation problems.
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    })
+  : new Pool({
+      user: process.env.DATABASE_USER,
+      host: process.env.DATABASE_HOST || "localhost",
+      database: process.env.DATABASE_NAME,
+      password: process.env.DATABASE_PASSWORD,
+      port: process.env.DATABASE_PORT
+        ? Number(process.env.DATABASE_PORT)
+        : 5432,
+    });
+
+// Optional: log when a client is acquired/released (helpful in debugging connection usage)
+pool.on("error", (err) => {
+  console.error("Unexpected idle client error", err);
 });
 
 async function query(text, params = []) {
@@ -58,7 +76,8 @@ app.use(
   })
 );
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
+
 function signToken(admin) {
   return jwt.sign({ id: admin.id, username: admin.username }, JWT_SECRET, {
     expiresIn: "6h",
@@ -331,7 +350,8 @@ app.post("/gym/unsubscribe", async (req, res) => {
     return res.redirect("/sdmcet/gym");
   } catch (err) {
     console.log(err);
-    window.alert("Failed to unsubscribe !");
+    console.warn("Failed to unsubscribe!");
+
     return res.redirect("/sdmcet/gym");
   }
 });
@@ -410,7 +430,8 @@ app.post("/sports/unsubscribe", async (req, res) => {
     return res.redirect("/sdmcet/sports");
   } catch (err) {
     console.error("Sports unsubscribe error:", err);
-    window.alert("Failed to unsubscribe !");
+    console.warn("Failed to unsubscribe!");
+
     return res.redirect("/sdmcet/sports");
   }
 });
@@ -1780,6 +1801,33 @@ app.post("/api/staff/sports/scan", upload.single("image"), async (req, res) => {
     });
   }
 });
+
+// Graceful shutdown: close DB pool on SIGTERM / SIGINT
+async function shutdown() {
+  console.log("Shutting down server...");
+  try {
+    await pool.end();
+    console.log("Database pool has ended.");
+  } catch (e) {
+    console.error("Error while ending database pool:", e);
+  }
+  process.exit(0);
+}
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
+
+// Optional startup DB check
+(async () => {
+  try {
+    await pool.query("SELECT 1");
+    console.log("Database connection OK");
+  } catch (e) {
+    console.error("Database connection failed at startup:", e);
+    // If DB is required for the app, exit so Render marks the deploy as failed.
+    process.exit(1);
+  }
+})();
 
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);
