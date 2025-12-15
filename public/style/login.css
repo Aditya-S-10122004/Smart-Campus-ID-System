@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(to bottom right, #f6faff, #eaf9ff);
@@ -168,7 +174,7 @@ footer {
 .checkbox-row input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #2d63f6; 
+  accent-color: #2d63f6;
   cursor: pointer;
 }
 .checkbox-label {
@@ -178,28 +184,102 @@ footer {
   user-select: none;
 }
 
-.staff-select-wrap { 
-  margin-top: 8px; display: none; 
+.staff-select-wrap {
+  margin-top: 8px;
+  display: none;
 }
 
 .staff-select {
-   width: 100%; padding: 8px; box-sizing: border-box; 
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
-.staff-select-wrap { 
-  margin-top: 8px; display: none; 
+.staff-select-wrap {
+  margin-top: 8px;
+  display: none;
 }
 
-.staff-select { 
-  width: 100%; padding: 8px; box-sizing: border-box; 
+.staff-select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
-.inline-error { 
-  color: #c0392b; font-size: 0.9rem; margin-top: 6px; display: none; 
+.inline-error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  display: none;
 }
 
 footer {
   margin-top: 18px;
   font-size: 13px;
   color: #556677;
+}
+
+@media (max-width: 768px) {
+  body {
+    height: auto;
+    min-height: 100vh;
+    padding: 20px 12px;
+    align-items: flex-start;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .login-box,
+  .admin-login-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 28px 22px;
+    box-sizing: border-box;
+  }
+
+  .icon-box {
+    width: 90px;
+    height: 45px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .subtext {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .login-form input {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .signup-text {
+    font-size: 13px;
+  }
+
+  footer {
+    margin-top: 16px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .checkbox-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .checkbox-label {
+    font-size: 13px;
+  }
 }
