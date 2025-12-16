@@ -329,3 +329,39 @@ body.dark .tx-amount.negative {
     overflow-wrap: anywhere;
   }
 }
+
+
+@media (max-width: 560px) {
+
+  /* Prevent horizontal overflow */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .page {
+    padding: 0 10px;
+  }
+
+  /* Cards container */
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Card should never exceed screen */
+  .card {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    box-sizing: border-box;
+  }
+
+  /* Disable hover effects on mobile */
+  .mess:hover,
+  .gym:hover,
+  .sports:hover,
+  .library:hover {
+    transform: none;
+    box-shadow: 0 8px 24px rgba(16, 24, 40, 0.05);
+  }
+}
