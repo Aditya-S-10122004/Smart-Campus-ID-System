@@ -82,6 +82,21 @@
               totals.bookings : 0 %>
             </p>
           </div>
+          <div class="sm-visits-card">
+            <p class="sm-visits-name">Today's booking amount</p>
+            <p class="sm-visits-count">
+              ₹ <%= typeof totals !== 'undefined' && totals.todayBookingAmount
+              != null ? totals.todayBookingAmount : 0 %>
+            </p>
+          </div>
+
+          <div class="sm-visits-card">
+            <p class="sm-visits-name">This month booking amount</p>
+            <p class="sm-visits-count">
+              ₹ <%= typeof totals !== 'undefined' && totals.monthBookingAmount
+              != null ? totals.monthBookingAmount : 0 %>
+            </p>
+          </div>
         </div>
 
         <div class="sm-recent-title">Recent visits :</div>
@@ -99,7 +114,8 @@
                   <%= v.student_name || v.name || 'Unknown' %>
                 </p>
                 <i class="sm-visit-item-id"
-                  ><%= v.student_id || v.id || '' %></i>
+                  ><%= v.student_id || v.id || '' %></i
+                >
               </div>
             </div>
 

@@ -519,11 +519,19 @@ app.get("/sdmcet/staff/mess", async (req, res) => {
 
     const totalsQ = await query(
       `SELECT
-         COUNT(*) FILTER (WHERE created_at >= date_trunc('day', now()))::int AS total_visits,
-         COUNT(*) FILTER (WHERE created_at >= date_trunc('day', now()) AND (hostelite = true))::int AS hostelite_visits,
-         COUNT(*) FILTER (WHERE created_at >= date_trunc('day', now()) AND (hostelite = false OR hostelite IS FALSE))::int AS dayscholar_visits,
-         (SELECT COUNT(*) FROM mess_bookings WHERE created_at >= date_trunc('day', now()))::int AS bookings
-       FROM mess_visits`
+     COUNT(*) FILTER (WHERE mv.created_at >= date_trunc('day', now()))::int AS total_visits,
+     COUNT(*) FILTER (WHERE mv.created_at >= date_trunc('day', now()) AND mv.hostelite = true)::int AS hostelite_visits,
+     COUNT(*) FILTER (WHERE mv.created_at >= date_trunc('day', now()) AND (mv.hostelite = false OR mv.hostelite IS FALSE))::int AS dayscholar_visits,
+     (SELECT COUNT(*) FROM mess_bookings WHERE created_at >= date_trunc('day', now()))::int AS bookings,
+     COALESCE(
+       (SELECT SUM(amount) FROM mess_bookings WHERE created_at >= date_trunc('day', now())),
+       0
+     )::int AS today_booking_amount,
+     COALESCE(
+       (SELECT SUM(amount) FROM mess_bookings WHERE created_at >= date_trunc('month', now())),
+       0
+     )::int AS month_booking_amount
+   FROM mess_visits mv`
     );
 
     const t = totalsQ.rows[0] || {
@@ -535,9 +543,11 @@ app.get("/sdmcet/staff/mess", async (req, res) => {
 
     const totals = {
       totalVisits: Number(t.total_visits || 0),
-      hosteliteVisits: Number(t.hostelite_visits || 0),
-      dayScholarVisits: Number(t.dayscholar_visits || 0),
+      hostelite: Number(t.hostelite_visits || 0),
+      dayScholar: Number(t.dayscholar_visits || 0),
       bookings: Number(t.bookings || 0),
+      todayBookingAmount: Number(t.today_booking_amount || 0),
+      monthBookingAmount: Number(t.month_booking_amount || 0),
     };
 
     return res.render("staffMess", {
