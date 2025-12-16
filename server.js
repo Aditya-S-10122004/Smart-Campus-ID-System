@@ -495,6 +495,9 @@ app.get("/user/photo/:id", async (req, res) => {
 });
 
 app.get("/sdmcet/staff/mess", async (req, res) => {
+  if (!req.session.staff || req.session.staff.section !== "mess") {
+    return res.redirect("/adminLogin");
+  }
   try {
     const staffRows = await query(
       "SELECT id, username FROM mess ORDER BY id ASC"
@@ -568,6 +571,32 @@ app.get("/sdmcet/staff/mess", async (req, res) => {
       },
       message: "Server error while loading Mess page.",
     });
+  }
+});
+
+app.get("/api/staff/mess/bookings", async (req, res) => {
+  try {
+    const staff = req.session && req.session.staff;
+    if (!staff || staff.section !== "mess")
+      return res.status(403).json({ ok: false });
+
+    const r = await query(
+      `SELECT
+         mb.id,
+         mb.booked_item,
+         mb.amount,
+         mb.created_at,
+         u.fullname,
+         u.student_id
+       FROM mess_bookings mb
+       JOIN users u ON u.id = mb.user_id
+       ORDER BY mb.created_at DESC`
+    );
+
+    return res.json({ ok: true, bookings: r.rows });
+  } catch (err) {
+    console.error("Mess bookings fetch error:", err);
+    return res.json({ ok: false });
   }
 });
 

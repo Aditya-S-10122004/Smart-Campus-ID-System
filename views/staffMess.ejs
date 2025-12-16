@@ -75,7 +75,7 @@
               totals.dayScholar : 0 %>
             </p>
           </div>
-          <div class="sm-visits-card">
+          <div class="sm-visits-card" id="bookingsCard">
             <p class="sm-visits-name">Bookings</p>
             <p class="sm-visits-count" id="bookingsCount">
               <%= typeof totals !== 'undefined' && totals.bookings != null ?
@@ -135,6 +135,17 @@
             </div>
           </div>
           <% } %>
+        </div>
+      </div>
+
+      <div class="sm-booking-overlay" id="bookingOverlay">
+        <div class="sm-booking-modal">
+          <div class="sm-booking-header">
+            <h3>Mess Bookings</h3>
+            <button id="closeBookingOverlay">✕</button>
+          </div>
+
+          <div id="bookingList"></div>
         </div>
       </div>
     </main>

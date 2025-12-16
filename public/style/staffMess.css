@@ -317,7 +317,7 @@ html.dark #cameraPreview {
 html.dark .sm-visits-card {
   background: #0b1220;
   color: #e6eef9;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
 }
 
 html.dark .sm-visits-name {
@@ -329,7 +329,7 @@ html.dark .sm-visits-count {
 
 html.dark .sm-visit-item {
   background: #0b1220;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
 }
 
 html.dark .sm-visit-item-name {
@@ -355,4 +355,66 @@ html.dark .sm-thumb {
 html.dark .sm-footer {
   background: linear-gradient(180deg, #0f172a, #1e293b);
   color: #ffffff;
+}
+
+.sm-booking-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.sm-booking-overlay.active {
+  display: flex;
+}
+
+.sm-booking-modal {
+  background: #fff;
+  width: 90%;
+  max-width: 720px;
+  max-height: 80vh;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sm-booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#bookingList {
+  margin-top: 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.sm-booking-header button {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.sm-booking-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 2fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+#bookingsCard {
+  cursor: pointer;
+}
+
+#bookingsCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
 }

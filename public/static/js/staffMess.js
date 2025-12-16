@@ -1,3 +1,4 @@
+// public/static/js/staffMess.js
 (function () {
   const startBtn = document.getElementById("startScanBtn");
   const stopBtn = document.getElementById("stopScanBtn");
@@ -14,20 +15,30 @@
   const scanOverlay = document.getElementById("scanOverlay");
 
   let stream = null;
-  let scanning = false; 
-  let cameraActive = false;
+  let scanning = false; // whether capture+upload loop is active
+  let cameraActive = false; // whether camera stream is active
   let scanLoopTimer = null;
   let attempts = 0;
   const CAPTURE_INTERVAL_MS = 1200;
-  const POST_MATCH_COOLDOWN_MS = 3000;
-  const SAME_USER_DEBOUNCE_MS = 10000;
-  const MAX_ATTEMPTS = 1000000; 
+  const POST_MATCH_COOLDOWN_MS = 3000; // short pause after a match to reduce duplicates
+  const SAME_USER_DEBOUNCE_MS = 10000; // ignore same user for 10s
+  const MAX_ATTEMPTS = 1000000; // effectively unlimited while camera is on
+
+  // track last matched user id -> timestamp to avoid immediate duplicates
   const lastMatched = new Map();
 
   function escapeHtml(s) {
     if (!s) return "";
-    return String(s).replace(/[&<>"']/g, (ch) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])
+    return String(s).replace(
+      /[&<>"']/g,
+      (ch) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[ch])
     );
   }
 
@@ -36,20 +47,31 @@
     item.className = "sm-visit-item";
     if (student.id) item.setAttribute("data-id", student.id);
 
-    const photoHtml = student.photo_path ? `<img src="${escapeHtml(student.photo_path)}" alt="photo" class="sm-thumb">` : "";
+    const photoHtml = student.photo_path
+      ? `<img src="${escapeHtml(
+          student.photo_path
+        )}" alt="photo" class="sm-thumb">`
+      : "";
 
     item.innerHTML = `
       <div class="sm-visit-left">
         ${photoHtml}
         <div>
-          <p class="sm-visit-item-name">${escapeHtml(student.student_name || student.name || 'Unknown')}</p>
-          <i class="sm-visit-item-id">${escapeHtml(student.student_id || student.id || '')}</i>
+          <p class="sm-visit-item-name">${escapeHtml(
+            student.student_name || student.name || "Unknown"
+          )}</p>
+          <i class="sm-visit-item-id">${escapeHtml(
+            student.student_id || student.id || ""
+          )}</i>
         </div>
       </div>
-      <div class="sm-visit-middle">${student.hostelite ? 'Hostelite' : 'Day Scholar'}</div>
+      <div class="sm-visit-middle">${
+        student.hostelite ? "Hostelite" : "Day Scholar"
+      }</div>
       <div class="sm-visit-right">Checked</div>
     `;
-    if (visitList.firstChild) visitList.insertBefore(item, visitList.firstChild);
+    if (visitList.firstChild)
+      visitList.insertBefore(item, visitList.firstChild);
     else visitList.appendChild(item);
   }
 
@@ -68,13 +90,14 @@
         dayEl.textContent = Number(dayEl.textContent || 0) + 1;
       }
     } catch (e) {
-      console.log(e);
+      // ignore
     }
   }
 
   function setStatus(s) {
     if (scanStatusEl) scanStatusEl.textContent = s;
-    if (scanOverlay) scanOverlay.style.display = s && s !== 'Stopped' ? 'block' : 'none';
+    if (scanOverlay)
+      scanOverlay.style.display = s && s !== "Stopped" ? "block" : "none";
   }
 
   function captureFrameBlob() {
@@ -107,20 +130,27 @@
     }
   }
 
+  // The continuous loop: capture -> send -> process -> repeat until stop clicked
   async function continuousScanStep() {
     if (!scanning) return;
     attempts++;
-
+    // no max attempts: camera runs until stopped
 
     if (!stream || !videoEl || videoEl.readyState < 2) {
-
-      scanLoopTimer = setTimeout(() => requestAnimationFrame(continuousScanStep), CAPTURE_INTERVAL_MS);
+      // try again on next tick
+      scanLoopTimer = setTimeout(
+        () => requestAnimationFrame(continuousScanStep),
+        CAPTURE_INTERVAL_MS
+      );
       return;
     }
 
     const blob = await captureFrameBlob();
     if (!blob) {
-      scanLoopTimer = setTimeout(() => requestAnimationFrame(continuousScanStep), CAPTURE_INTERVAL_MS);
+      scanLoopTimer = setTimeout(
+        () => requestAnimationFrame(continuousScanStep),
+        CAPTURE_INTERVAL_MS
+      );
       return;
     }
 
@@ -129,24 +159,40 @@
     const result = await sendProbe(blob);
 
     if (!result || !result.ok) {
-      scanLoopTimer = setTimeout(() => requestAnimationFrame(continuousScanStep), CAPTURE_INTERVAL_MS);
+      // transient error, continue
+      scanLoopTimer = setTimeout(
+        () => requestAnimationFrame(continuousScanStep),
+        CAPTURE_INTERVAL_MS
+      );
       return;
     }
 
     if (result.matched) {
+      // prevent immediate repeated matches for same user
       const matchedId = result.student && result.student.id;
       const now = Date.now();
       if (matchedId) {
         const last = lastMatched.get(matchedId) || 0;
         if (now - last < SAME_USER_DEBOUNCE_MS) {
+          // ignore duplicate match for same user within debounce window
           setStatus(`Matched recently (${result.student.name}) — continuing`);
-          scanLoopTimer = setTimeout(() => requestAnimationFrame(continuousScanStep), CAPTURE_INTERVAL_MS);
+          scanLoopTimer = setTimeout(
+            () => requestAnimationFrame(continuousScanStep),
+            CAPTURE_INTERVAL_MS
+          );
           return;
         }
         lastMatched.set(matchedId, now);
       }
 
-      setStatus("Matched: " + (result.student ? result.student.name : '') + (result.confidence ? (' (' + Number(result.confidence).toFixed(1) + ')') : ''));
+      // apply UI updates immediately
+      setStatus(
+        "Matched: " +
+          (result.student ? result.student.name : "") +
+          (result.confidence
+            ? " (" + Number(result.confidence).toFixed(1) + ")"
+            : "")
+      );
 
       if (result.recentVisit) {
         prependVisit(result.recentVisit);
@@ -158,28 +204,41 @@
           student_name: result.student.name,
           hostelite: result.student.hostelite,
           photo_path: result.student.photo_url,
-          created_at: new Date().toISOString()
+          created_at: new Date().toISOString(),
         });
         updateTotalsOnMatch(result.student);
       }
 
-      scanLoopTimer = setTimeout(() => requestAnimationFrame(continuousScanStep), POST_MATCH_COOLDOWN_MS);
+      // short cooldown to avoid duplicate immediate requests (camera stays on)
+      scanLoopTimer = setTimeout(
+        () => requestAnimationFrame(continuousScanStep),
+        POST_MATCH_COOLDOWN_MS
+      );
       return;
     } else {
-
-      if (typeof result.confidence !== 'undefined') {
-        setStatus('No match (best: ' + Number(result.confidence).toFixed(1) + ')');
+      // no match
+      if (typeof result.confidence !== "undefined") {
+        setStatus(
+          "No match (best: " + Number(result.confidence).toFixed(1) + ")"
+        );
       } else {
-        setStatus('No match — scanning...');
+        setStatus("No match — scanning...");
       }
-      scanLoopTimer = setTimeout(() => requestAnimationFrame(continuousScanStep), CAPTURE_INTERVAL_MS);
+      scanLoopTimer = setTimeout(
+        () => requestAnimationFrame(continuousScanStep),
+        CAPTURE_INTERVAL_MS
+      );
     }
   }
 
+  // Start camera stream if not already active
   async function startCameraIfNeeded() {
     if (cameraActive && stream) return;
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+        audio: false,
+      });
       videoEl.srcObject = stream;
       await videoEl.play();
       videoWrap && videoWrap.classList.add("active");
@@ -190,6 +249,7 @@
     }
   }
 
+  // Start camera and scanning loop
   async function startScanning() {
     if (scanning) return;
     startBtn.disabled = true;
@@ -210,12 +270,14 @@
 
     scanning = true;
     setStatus("Camera started — scanning...");
+    // small warmup then begin loop
     setTimeout(() => {
       if (!scanning) return;
       requestAnimationFrame(continuousScanStep);
     }, 600);
   }
 
+  // Stop scanning and stop camera tracks
   function stopScanning() {
     scanning = false;
     startBtn.disabled = false;
@@ -234,15 +296,18 @@
     }
     cameraActive = false;
     if (videoEl) {
-      try { videoEl.pause(); } catch (e) {}
+      try {
+        videoEl.pause();
+      } catch (e) {}
       videoEl.srcObject = null;
     }
     videoWrap && videoWrap.classList.remove("active");
     setStatus("Stopped");
   }
 
+  // Wire buttons
   startBtn.addEventListener("click", () => {
-
+    // If camera is active but scanning paused, resume scanning
     if (cameraActive && !scanning) {
       scanning = true;
       startBtn.disabled = true;
@@ -251,7 +316,7 @@
       requestAnimationFrame(continuousScanStep);
       return;
     }
-
+    // otherwise start camera + scanning
     startScanning();
   });
 
@@ -277,6 +342,54 @@
     }
   })();
 
+  // expose for debugging/control
   window._staffMess = { startScanning, stopScanning };
+  const bookingsCard = document.getElementById("bookingsCard");
+  const bookingOverlay = document.getElementById("bookingOverlay");
+  const closeOverlayBtn = document.getElementById("closeBookingOverlay");
+  const bookingList = document.getElementById("bookingList");
 
+  if (bookingsCard) {
+    bookingsCard.addEventListener("click", async () => {
+      bookingOverlay.classList.add("active");
+      bookingList.textContent = "Loading...";
+
+      try {
+        const r = await fetch("/api/staff/mess/bookings");
+        const j = await r.json();
+
+        if (!j.ok) {
+          bookingList.textContent = "Failed to load bookings";
+          return;
+        }
+
+        bookingList.innerHTML =
+          j.bookings.length === 0
+            ? "No bookings found"
+            : j.bookings
+                .map(
+                  (b) => `
+        <div class="sm-booking-row">
+          <div>
+            <strong>${b.fullname}</strong><br>
+            <small>${b.student_id}</small>
+          </div>
+          <div>${b.booked_item}</div>
+          <div>₹ ${b.amount}</div>
+          <div>${new Date(b.created_at).toLocaleString()}</div>
+        </div>
+      `
+                )
+                .join("");
+      } catch (e) {
+        bookingList.textContent = "Network error";
+      }
+    });
+  }
+
+  if (closeOverlayBtn) {
+    closeOverlayBtn.addEventListener("click", () => {
+      bookingOverlay.classList.remove("active");
+    });
+  }
 })();
