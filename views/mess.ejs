@@ -29,27 +29,21 @@
     <div class="container">
       <div class="header-title">Mess</div>
 
-      <div class="mess-card" style="margin-bottom: 20px;">
-        <div class="mess-card-img">
-          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-        </div>
+      <div class="mess-marquee">
+        <div class="mess-marquee-track">
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
 
-        <div id="morePhotos" class="hidden-img">
-          <div class="mess-card-img">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          </div>
-
-          <div class="mess-card-img">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          </div>
+          <!-- duplicate images for smooth looping -->
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
+          <img src="/data/SDMCET.jpg" class="mess-img" />
         </div>
-        <button id="toggleBtn" class="see-more-btn">See More</button>
       </div>
 
       <div class="mess-card">
@@ -76,24 +70,25 @@
               >
             </p>
             <% if(!user.hostelite){ %>
-              <p id="booking-summary" style="margin-top: 6px; color: #374151">
-                <% if (typeof bookedParticular !== 'undefined' &&
-                bookedParticular) { %> Booked:
-                <strong id="booked-particular"><%= bookedParticular %></strong>
-                <% } else { %>
-                <em id="no-booking-placeholder">No bookings</em>
-                <% } %>
-              </p>
+            <p id="booking-summary" style="margin-top: 6px; color: #374151">
+              <% if (typeof bookedParticular !== 'undefined' &&
+              bookedParticular) { %> Booked:
+              <strong id="booked-particular"><%= bookedParticular %></strong>
+              <% } else { %>
+              <em id="no-booking-placeholder">No bookings</em>
               <% } %>
+            </p>
+            <% } %>
           </div>
 
           <% if(!user.hostelite){ %>
-            <div class="wallet-box" id="wallet-box">
-              <span class="label">Wallet</span>
-              <span class="amount" id="wallet-amount"
-                >₹<%= (user && typeof user.wallet !== 'undefined') ?
-                Number(user.wallet).toFixed(2) : '0.00' %></span>
-            </div>
+          <div class="wallet-box" id="wallet-box">
+            <span class="label">Wallet</span>
+            <span class="amount" id="wallet-amount"
+              >₹<%= (user && typeof user.wallet !== 'undefined') ?
+              Number(user.wallet).toFixed(2) : '0.00' %></span
+            >
+          </div>
           <% } %>
         </div>
 
@@ -197,8 +192,7 @@
       </div>
     </div>
 
-    <%- include('footer') %> 
-    <% if (!user.hostelite) { %>
+    <%- include('footer') %> <% if (!user.hostelite) { %>
     <div class="overlay" id="booking-overlay" aria-hidden="true">
       <div
         class="booking-panel"
@@ -330,20 +324,6 @@
     <% } %>
 
     <script>
-
-      const morePhotos = document.getElementById("morePhotos");
-      const toggleBtn = document.getElementById("toggleBtn");
-
-      toggleBtn.addEventListener("click", () => {
-        if (morePhotos.style.display === "none" || morePhotos.style.display === "") {
-          morePhotos.style.display = "block";
-          toggleBtn.textContent = "See Less";
-        } else {
-          morePhotos.style.display = "none";
-          toggleBtn.textContent = "See More";
-        }
-      });
-
       (function () {
         function getWeekdayKey(date = new Date()) {
           return date
@@ -372,7 +352,7 @@
 
               el.innerHTML =
                 "<ul class='menu-list'>" +
-                items.map((i) => `<li>${i}</li>`).join("") +
+                items.map((i) => <li>${i}</li>).join("") +
                 "</ul>";
             }
 

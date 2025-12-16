@@ -303,7 +303,6 @@ html.dark .tx-item {
   text-align: left;
 }
 
-
 html.dark .booking-table th,
 html.dark .booking-table td {
   border-bottom: 1px solid #1e293b;
@@ -319,11 +318,11 @@ html.dark .booking-table td {
   transition: 0.3s ease;
 }
 
-.booking-table td .pay-btn:hover{
+.booking-table td .pay-btn:hover {
   transform: translateY(-2px);
 }
 
-.close-btn{
+.close-btn {
   width: 50px;
   margin-left: 8px;
   padding: 6px 10px;
@@ -332,7 +331,7 @@ html.dark .booking-table td {
   border: 1px solid #ccc;
   transition: 0.3s ease;
 }
-.close-btn:hover{
+.close-btn:hover {
   transform: translateY(-1px);
 }
 
@@ -352,25 +351,25 @@ html.dark .booking-table td {
   font-weight: 600;
 }
 
-html.dark .booking-panel{
+html.dark .booking-panel {
   color: #cbd5e1;
-  background: #0f172a ;
+  background: #0f172a;
 }
 
-.mess-card-img{
+.mess-card-img {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin-bottom: 10px;
 }
 
-.mess-img{
+.mess-img {
   border-radius: 10px;
   width: 95%;
   height: 25vh;
   margin-left: 15px;
 }
 
-.see-more-btn{
+.see-more-btn {
   color: white;
   background: #1f63d6;
   display: flex;
@@ -385,7 +384,41 @@ html.dark .booking-panel{
   cursor: pointer;
 }
 
-.hidden-img{
+.hidden-img {
   display: none;
   transition: 1s ease-in;
+}
+
+.mess-marquee {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.mess-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: mess-scroll 25s linear infinite;
+}
+
+.mess-marquee .mess-img {
+  width: 280px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 16px;
+}
+
+@keyframes mess-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.mess-marquee:hover .mess-marquee-track {
+  animation-play-state: paused;
 }

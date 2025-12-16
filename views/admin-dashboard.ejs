@@ -204,49 +204,6 @@
           </div>
         </form>
       </div>
-
-      <div>
-        <label style="font-weight: 700; margin-left: 3px; margin-right: 8px"
-          >Add Amount</label
-        >
-      </div>
-
-      <div class="panel" id="amountPanel">
-        <form action="/admin/add/amount" id="amountForm" method="post">
-          <div class="row">
-            <div class="col">
-              <label for="amountUSN">USN</label>
-              <input
-                type="text"
-                id="amountUSN"
-                name="amountUSN"
-                placeholder="2SD23IS100"
-                required
-              />
-            </div>
-
-            <div class="col">
-              <label for="amountValue">Amount</label>
-              <input
-                type="number"
-                id="amountValue"
-                name="amountValue"
-                required
-              />
-            </div>
-          </div>
-          <div class="row">
-            <button
-              type="submit"
-              id="amountSubmit"
-              class="btn"
-              style="margin-top: 15px"
-            >
-              Add
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
 
     <footer class="site-footer">SDMCET | © 2025 Smart Campus ID System</footer>
@@ -266,8 +223,8 @@
 
         function updateTheme() {
           var d = document.body.classList.contains("dark");
-          themeText.textContent = d ? "Light" : "Dark";
           themeIcon.textContent = d ? "🌞" : "🌙";
+          themeText.textContent = d ? "Light" : "Dark";
           themeBtn.setAttribute("aria-pressed", String(d));
         }
         updateTheme();
@@ -367,10 +324,6 @@
             );
             console.error(err);
           }
-        }
-
-        if (message) {
-          alert(JSON.stringify(message));
         }
 
         function stopCamera() {

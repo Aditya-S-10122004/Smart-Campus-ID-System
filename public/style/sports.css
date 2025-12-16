@@ -264,25 +264,24 @@ body.dark .note {
   cursor: pointer;
 }
 
-html.dark #subscribe-panel{
+html.dark #subscribe-panel {
   background: #0f172a;
 }
 
-
-.mess-card-img{
+.mess-card-img {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin-bottom: 10px;
 }
 
-.mess-img{
+.mess-img {
   border-radius: 10px;
   width: 95%;
   height: 25vh;
   margin-left: 15px;
 }
 
-.see-more-btn{
+.see-more-btn {
   color: white;
   background: #1f63d6;
   display: flex;
@@ -297,7 +296,41 @@ html.dark #subscribe-panel{
   cursor: pointer;
 }
 
-.hidden-img{
+.hidden-img {
   display: none;
   transition: 1s ease-in;
+}
+
+.sports-marquee {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.sports-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: sports-scroll 25s linear infinite;
+}
+
+.sports-img {
+  width: 280px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 16px;
+}
+
+@keyframes sports-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.sports-marquee:hover .sports-marquee-track {
+  animation-play-state: paused;
 }

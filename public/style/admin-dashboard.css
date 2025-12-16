@@ -146,7 +146,6 @@ label {
 }
 
 input[type="text"],
-input[type="number"],
 input[type="email"],
 input[type="password"],
 select {
@@ -159,7 +158,6 @@ select {
   color: #0f1724;
 }
 body.dark input[type="text"],
-body.dark input[type="number"],
 body.dark input[type="email"],
 body.dark input[type="password"],
 body.dark select {
@@ -256,4 +254,29 @@ body.dark footer.site-footer {
 .panel,
 .file-preview {
   background-clip: padding-box;
+}
+
+/* FIX oversized stat cards on mobile */
+@media (max-width: 768px) {
+  .stats {
+    align-items: stretch;
+  }
+
+  .heading-name {
+    margin-left: 20px;
+  }
+
+  .stats .card {
+    flex: unset; /* 🔑 stop flex stretching */
+    padding: 10px 12px;
+  }
+
+  .stats .card h3 {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .stats .card .big {
+    font-size: 22px;
+  }
 }

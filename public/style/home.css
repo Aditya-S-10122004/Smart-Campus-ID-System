@@ -7,7 +7,8 @@ body {
   transition: 0.4s ease, color 0.4s ease;
 }
 
-html.dark, body.dark {
+html.dark,
+body.dark {
   color: #e2e8f0;
 }
 
@@ -20,14 +21,14 @@ body.dark {
 html.dark .transactions,
 body.dark .transactions {
   background: #0f172a;
-  box-shadow: 0 8px 26px rgba(0,0,0,0.55);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
   color: #e2e8f0;
 }
 
 html.dark .tx-item,
 body.dark .tx-item {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 html.dark footer.site-footer,
@@ -104,7 +105,6 @@ body.dark .profile {
   border-radius: 999px;
   font-size: 13px;
 }
-
 
 /* Tabs */
 /* .top-tabs {
@@ -185,7 +185,7 @@ body.dark .profile {
 .mess:hover,
 .gym:hover,
 .sports:hover,
-.library:hover{
+.library:hover {
   cursor: pointer;
   transform: translateY(-5px);
   box-shadow: 5px 5px 12px #7a8088;
@@ -194,7 +194,7 @@ body.dark .profile {
 .mess:focus,
 .gym:focus,
 .sports:focus,
-.library:focus{
+.library:focus {
   opacity: 0.9;
   transform: translateZ(-5px);
 }
@@ -272,7 +272,6 @@ body.dark .tx-amount.negative {
   color: #f87171;
 }
 
-
 @media (max-width: 980px) {
   .cards {
     grid-template-columns: repeat(2, 1fr);
@@ -291,5 +290,42 @@ body.dark .tx-amount.negative {
   }
   .page {
     padding: 0 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Stack profile card */
+  .profile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* Profile left (avatar + name) */
+  .profile-left {
+    width: 100%;
+  }
+
+  /* Wallet & Email blocks */
+  .profile > div:not(.profile-left) {
+    gap: 10px;
+    margin-left: 75px;
+    display: flex;
+    width: 100%;
+  }
+
+  /* Labels: Wallet / Email */
+  .profile > div:not(.profile-left) > div:first-child {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 5px;
+  }
+
+  /* Values: amount / email */
+  .profile > div:not(.profile-left) > div:last-child {
+    font-size: 15px;
+    font-weight: 700;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 }

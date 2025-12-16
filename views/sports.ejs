@@ -62,7 +62,10 @@
         id="sub-msg"
         style="margin-top: 12px; display: none; font-size: 14px"
       ></div>
-      <button id="close-subscribe" style="margin-top: 12px; border-radius: 8px;padding: 6px 14px">
+      <button
+        id="close-subscribe"
+        style="margin-top: 12px; border-radius: 8px; padding: 6px 14px"
+      >
         Close
       </button>
     </div>
@@ -70,27 +73,21 @@
     <div class="container">
       <div class="header-title">Indoor Sports</div>
 
-      <div class="sports-card" style="margin-bottom: 20px;">
-        <div class="mess-card-img">
-          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-        </div>
+      <div class="sports-marquee">
+        <div class="sports-marquee-track">
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
 
-        <div id="morePhotos" class="hidden-img">
-          <div class="mess-card-img">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          </div>
-
-          <div class="mess-card-img">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-            <img class="mess-img" src="/data/SDMCET.jpg" alt="mess-pic">
-          </div>
+          <!-- duplicate for smooth loop -->
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
+          <img src="/data/SDMCET.jpg" class="sports-img" />
         </div>
-        <button id="toggleBtn" class="see-more-btn">See More</button>
       </div>
 
       <div class="sports-card">
@@ -237,19 +234,6 @@
             btns.forEach((x) => (x.disabled = false));
           }
         });
-      });
-
-      const morePhotos = document.getElementById("morePhotos");
-      const toggleBtn = document.getElementById("toggleBtn");
-
-      toggleBtn.addEventListener("click", () => {
-        if (morePhotos.style.display === "none" || morePhotos.style.display === "") {
-          morePhotos.style.display = "block";
-          toggleBtn.textContent = "See Less";
-        } else {
-          morePhotos.style.display = "none";
-          toggleBtn.textContent = "See More";
-        }
       });
     </script>
   </body>
