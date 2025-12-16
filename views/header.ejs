@@ -6,12 +6,12 @@
       <div class="logo">SDMCET</div>
     </div>
 
-    <div class="nav-links" aria-hidden="true">
+    <div class="nav-links">
       <a href="/sdmcet/home">Home</a>
       <a href="/sdmcet/mess">Mess</a>
       <a href="/sdmcet/gym">Gym</a>
       <a href="/sdmcet/sports">Indoor Sports</a>
-      <!-- <a href="/sdmcet/library">Library</a> -->
+      <a href="/sdmcet/library">Library</a>
       <a href="/sdmcet/contact">Contact Us</a>
     </div>
   </div>
@@ -63,12 +63,6 @@
         link.classList.add("active-link");
       }
     });
-    if(currentPath === "/sdmcet/home"){
-      const navLinks = document.querySelector(".nav-links");
-      if(navLinks){
-        navLinks.style.display = "none";
-      }
-    }
   });
 </script>
 
