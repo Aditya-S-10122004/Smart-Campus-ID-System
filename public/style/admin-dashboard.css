@@ -146,6 +146,7 @@ label {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="email"],
 input[type="password"],
 select {
@@ -158,6 +159,7 @@ select {
   color: #0f1724;
 }
 body.dark input[type="text"],
+body.dark input[type="number"],
 body.dark input[type="email"],
 body.dark input[type="password"],
 body.dark select {
