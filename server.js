@@ -189,13 +189,14 @@ app.post("/admin/login", async (req, res) => {
     "/sdmcet/staff/mess": { table: "mess", path: "/sdmcet/staff/mess" },
     "/sdmcet/staff/gym": { table: "gym", path: "/sdmcet/staff/gym" },
     "/sdmcet/staff/sports": { table: "sports", path: "/sdmcet/staff/sports" },
+    "/sdmcet/staff/library": { table: "library", path: "/sdmcet/staff/library" },
   };
 
   try {
     if (isStaff) {
       if (!sectionMap[staffSection]) {
         return res.render("adminLogin", {
-          message: "Please select a valid section (mess / gym / sports).",
+          message: "Please select a valid section (mess / gym / sports / library).",
         });
       }
 
@@ -1867,6 +1868,98 @@ process.on("SIGINT", shutdown);
     process.exit(1);
   }
 })();
+
+app.get("/sdmcet/staff/library", async (req, res) => {
+  try {
+    if (!req.session.staff || req.session.staff.section !== "library") {
+      return res.redirect("/adminLogin");
+    }
+
+    const result = await query(`
+      SELECT 
+        u.student_id AS usn,
+        u.fullname AS name,
+        b.title,
+        TO_CHAR(b.issued_on, 'DD/MM/YYYY') AS issued_on,
+        TO_CHAR(b.due_on, 'DD/MM/YYYY') AS due_on
+      FROM borrowed_books b
+      JOIN users u ON u.id = b.user_id
+      ORDER BY b.issued_on DESC
+    `);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const borrowedBooks = result.rows.map((b) => {
+      // b.due_on is "DD/MM/YYYY"
+      const [day, month, year] = b.due_on.split("/").map(Number);
+
+      const due = new Date(year, month - 1, day);
+      due.setHours(0, 0, 0, 0);
+
+      const diffDays = Math.floor(
+        (today.getTime() - due.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      let fine = 0;
+      if (diffDays > 0) {
+        if (diffDays <= 7) {
+          fine = diffDays;
+        } else {
+          fine = 7 + (diffDays - 7) * 5;
+        }
+      }
+
+      return {
+        ...b,
+        fine,
+      };
+    });
+
+    res.render("staffLibrary", { borrowedBooks });
+  } catch (err) {
+    console.error("GET /staff/library error:", err);
+    res.render("staffLibrary", { borrowedBooks: [] });
+  }
+});
+
+app.post("/staff/library/borrow", async (req, res) => {
+  try {
+    if (!req.session.staff || req.session.staff.section !== "library") {
+      return res.redirect("/adminLogin");
+    }
+
+    const { usn, title } = req.body;
+    if (!usn || !title) {
+      return res.redirect("/sdmcet/staff/library");
+    }
+
+    const userRes = await query("SELECT id FROM users WHERE student_id = $1", [
+      usn,
+    ]);
+
+    if (userRes.rowCount === 0) {
+      return res.redirect("/sdmcet/staff/library");
+    }
+
+    const userId = userRes.rows[0].id;
+
+    const issuedOn = new Date();
+    const dueOn = new Date();
+    dueOn.setDate(issuedOn.getDate() + 15);
+
+    await query(
+      `INSERT INTO borrowed_books (user_id, title, issued_on, due_on)
+       VALUES ($1, $2, $3, $4)`,
+      [userId, title, issuedOn, dueOn]
+    );
+
+    res.redirect("/sdmcet/staff/library");
+  } catch (err) {
+    console.error("POST /staff/library/borrow error:", err);
+    res.redirect("/sdmcet/staff/library");
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);
