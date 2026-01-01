@@ -231,6 +231,7 @@
                   class="pay-btn"
                   data-particular="Breakfast"
                   data-amount="60"
+                  data-cutoff="09:00"
                   style="background: #2a61e6; color: #fff"
                 >
                   60
@@ -244,6 +245,7 @@
                   class="pay-btn"
                   data-particular="Lunch"
                   data-amount="70"
+                  data-cutoff="14:30"
                   style="background: #2a61e6; color: #fff"
                 >
                   70
@@ -257,6 +259,7 @@
                   class="pay-btn"
                   data-particular="Snacks"
                   data-amount="30"
+                  data-cutoff="18:00"
                   style="background: #2a61e6; color: #fff"
                 >
                   30
@@ -270,6 +273,7 @@
                   class="pay-btn"
                   data-particular="Dinner"
                   data-amount="70"
+                  data-cutoff="21:30"
                   style="background: #2a61e6; color: #fff"
                 >
                   70
@@ -283,6 +287,8 @@
                   class="pay-btn"
                   data-particular="Saturday lunch"
                   data-amount="100"
+                  data-cutoff="14:30"
+                  data-day="saturday"
                   style="background: #2a61e6; color: #fff"
                 >
                   100
@@ -296,6 +302,8 @@
                   class="pay-btn"
                   data-particular="Sunday breakfast"
                   data-amount="70"
+                  data-cutoff="10:00"
+                  data-day="sunday"
                   style="background: #2a61e6; color: #fff"
                 >
                   70
@@ -334,6 +342,42 @@
       </div>
     </div>
     <% } %>
+
+    <script>
+      (function () {
+        const now = new Date();
+        const today = now
+          .toLocaleDateString("en-US", { weekday: "long" })
+          .toLowerCase();
+
+        function timeToMinutes(t) {
+          const [h, m] = t.split(":").map(Number);
+          return h * 60 + m;
+        }
+
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        document.querySelectorAll(".pay-btn").forEach((btn) => {
+          const cutoff = btn.getAttribute("data-cutoff");
+          const day = btn.getAttribute("data-day");
+
+          // Day-specific buttons (Saturday / Sunday)
+          if (day && day !== today) {
+            btn.disabled = true;
+            btn.style.opacity = "0.45";
+            btn.title = "Available only on " + day;
+            return;
+          }
+
+          // Time-based disable
+          if (cutoff && currentMinutes >= timeToMinutes(cutoff)) {
+            btn.disabled = true;
+            btn.style.opacity = "0.45";
+            btn.title = "Booking closed for this meal";
+          }
+        });
+      })();
+    </script>
 
     <script>
       (function () {
