@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Smart Campus ID System</title>
+    <title>Library Staff</title>
 
     <script>
       (function () {
@@ -13,9 +13,7 @@
             document.documentElement.classList.add("dark");
             document.body.classList.add("dark");
           }
-        } catch (e) {
-            console.log(err);
-        }
+        } catch (e) {}
       })();
     </script>
 
@@ -41,18 +39,73 @@
         </div>
 
         <!-- Borrow Form -->
-        <form class="lib-form" method="POST" action="/staff/library/borrow">
+        <form
+          action="/staff/library/borrow"
+          method="POST"
+          class="lib-form"
+          autocomplete="off"
+        >
+          <!-- USN -->
           <div>
-            <label>Student USN</label>
-            <input type="text" name="usn" required />
+            <label for="usn">Student USN</label>
+            <input
+              type="text"
+              id="usn"
+              name="usn"
+              placeholder="2SD23IS001"
+              required
+            />
           </div>
 
+          <!-- Book Title -->
           <div>
-            <label>Book Name</label>
-            <input type="text" name="title" required />
+            <label for="title">Book Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Operating Systems"
+              required
+            />
           </div>
 
-          <button type="submit">Add</button>
+          <!-- Author -->
+          <div>
+            <label for="author">Author</label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              placeholder="Abraham Silberschatz"
+            />
+          </div>
+
+          <!-- Book ID -->
+          <div>
+            <label for="book_id">Book ID</label>
+            <input
+              type="text"
+              id="book_id"
+              name="book_id"
+              placeholder="LIB-OS-102"
+            />
+          </div>
+
+          <!-- Book Edition -->
+          <div>
+            <label for="book_edition">Book Edition</label>
+            <input
+              type="text"
+              id="book_edition"
+              name="book_edition"
+              placeholder="9th Edition"
+            />
+          </div>
+
+          <!-- Submit -->
+          <div>
+            <button type="submit">Add Book</button>
+          </div>
         </form>
 
         <!-- Borrowed Books Table -->
@@ -64,28 +117,36 @@
               <tr>
                 <th>USN</th>
                 <th>Name</th>
-                <th>Book</th>
-                <th>Date of Borrow</th>
-                <th>Due Date</th>
-                <th>Total Fine</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Book ID</th>
+                <th>Edition</th>
+                <th>Issued On</th>
+                <th>Due On</th>
+                <th>Fine (₹)</th>
               </tr>
             </thead>
+
             <tbody>
-              <% if (borrowedBooks && borrowedBooks.length) { %> <%
-              borrowedBooks.forEach(function(b) { %>
+              <% if (borrowedBooks.length === 0) { %>
+              <tr>
+                <td colspan="9" style="text-align: center">No records found</td>
+              </tr>
+              <% } %> <% borrowedBooks.forEach((b) => { %>
               <tr>
                 <td><%= b.usn %></td>
                 <td><%= b.name %></td>
                 <td><%= b.title %></td>
+                <td><%= b.author || "-" %></td>
+                <td><%= b.book_id || "-" %></td>
+                <td><%= b.book_edition || "-" %></td>
                 <td><%= b.issued_on %></td>
                 <td><%= b.due_on %></td>
-                <td class="fine-box"><%= b.fine === 0 ? "No dues" : "₹ " + b.fine %></td>
+                <td class="fine-box">
+                  <%= b.fine === 0 ? "No dues" : b.fine %>
+                </td>
               </tr>
-              <% }) %> <% } else { %>
-              <tr>
-                <td colspan="5">No borrowed books</td>
-              </tr>
-              <% } %>
+              <% }) %>
             </tbody>
           </table>
         </div>
@@ -105,7 +166,9 @@
           "sc_theme",
           document.body.classList.contains("dark") ? "dark" : "light"
         );
-        toggle.textContent = document.body.classList.contains("dark") ? "🌙 Dark" : "🌞 Light" ;
+        toggle.textContent = document.body.classList.contains("dark")
+          ? "🌙 Dark"
+          : "🌞 Light";
       };
     </script>
   </body>

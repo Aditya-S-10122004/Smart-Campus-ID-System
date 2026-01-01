@@ -71,6 +71,9 @@
             <table class="timing-table" aria-label="Books currently borrowed">
               <tr class="headrow">
                 <th>Title</th>
+                <th>Author</th>
+                <th>Book ID</th>
+                <th>Edition</th>
                 <th>Issued on</th>
                 <th>Due on</th>
               </tr>
@@ -79,25 +82,20 @@
               <% borrowedBooks.forEach(function(book){ %>
               <tr>
                 <td><%= book.title %></td>
+                <td><%= book.author || "-" %></td>
+                <td><%= book.book_id || "-" %></td>
+                <td><%= book.book_edition || "-" %></td>
                 <td>
-                  <% try { %> 
-                  <%= (new Date(book.issued_on)).toLocaleDateString('en-GB') %> 
-                  <% }catch(e) { %> 
-                  <%= book.issued_on %> 
-                  <% } %>
+                  <%= (new Date(book.issued_on)).toLocaleDateString('en-GB') %>
                 </td>
                 <td>
-                  <% try { %> 
-                  <%= (new Date(book.due_on)).toLocaleDateString('en-GB') %> 
-                  <% } catch(e) { %> 
-                  <%= book.due_on %> 
-                  <% } %>
+                  <%= (new Date(book.due_on)).toLocaleDateString('en-GB') %>
                 </td>
               </tr>
               <% }) %> 
               <% } else { %>
               <tr>
-                <td colspan="3" style="text-align: center; padding: 16px; color: #94a3b8">
+                <td colspan="6" style="text-align: center; padding: 16px; color: #94a3b8">
                   No books currently borrowed.
                 </td>
               </tr>

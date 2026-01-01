@@ -448,9 +448,13 @@ app.get("/sdmcet/library", async (req, res) => {
     const user = userResult.rows[0];
 
     const booksResult = await query(
-      `SELECT title, issued_on, due_on FROM borrowed_books WHERE user_id = $1 ORDER BY issued_on DESC`,
+      `SELECT title,author,book_id,book_edition,issued_on,due_on
+        FROM borrowed_books
+        WHERE user_id = $1
+        ORDER BY issued_on DESC`,
       [req.session.userId]
     );
+
     const borrowedBooks = booksResult.rows || [];
 
     let totalFine = 0;
@@ -1869,6 +1873,8 @@ process.on("SIGINT", shutdown);
   }
 })();
 
+//staffLibrary
+
 app.get("/sdmcet/staff/library", async (req, res) => {
   try {
     if (!req.session.staff || req.session.staff.section !== "library") {
@@ -1880,6 +1886,9 @@ app.get("/sdmcet/staff/library", async (req, res) => {
         u.student_id AS usn,
         u.fullname AS name,
         b.title,
+        b.author,
+        b.book_id,
+        b.book_edition,
         TO_CHAR(b.issued_on, 'DD/MM/YYYY') AS issued_on,
         TO_CHAR(b.due_on, 'DD/MM/YYYY') AS due_on
       FROM borrowed_books b
@@ -1925,15 +1934,19 @@ app.get("/sdmcet/staff/library", async (req, res) => {
 
 app.post("/staff/library/borrow", async (req, res) => {
   try {
+    // staff auth check
     if (!req.session.staff || req.session.staff.section !== "library") {
       return res.redirect("/adminLogin");
     }
 
-    const { usn, title } = req.body;
+    const { usn, title, author, book_id, book_edition } = req.body;
+
+    // basic validation
     if (!usn || !title) {
       return res.redirect("/sdmcet/staff/library");
     }
 
+    // get user_id from users table
     const userRes = await query("SELECT id FROM users WHERE student_id = $1", [
       usn,
     ]);
@@ -1944,20 +1957,34 @@ app.post("/staff/library/borrow", async (req, res) => {
 
     const userId = userRes.rows[0].id;
 
+    // dates
     const issuedOn = new Date();
     const dueOn = new Date();
-    dueOn.setDate(issuedOn.getDate() + 15);
+    dueOn.setDate(issuedOn.getDate() + 15); // 15-day borrowing period
 
+    // insert into borrowed_books with new columns
     await query(
-      `INSERT INTO borrowed_books (user_id, title, issued_on, due_on)
-       VALUES ($1, $2, $3, $4)`,
-      [userId, title, issuedOn, dueOn]
+      `
+      INSERT INTO borrowed_books 
+        (user_id, title, author, book_id, book_edition, issued_on, due_on)
+      VALUES 
+        ($1, $2, $3, $4, $5, $6, $7)
+      `,
+      [
+        userId,
+        title,
+        author || null,
+        book_id || null,
+        book_edition || null,
+        issuedOn,
+        dueOn,
+      ]
     );
 
-    res.redirect("/sdmcet/staff/library");
+    return res.redirect("/sdmcet/staff/library");
   } catch (err) {
     console.error("POST /staff/library/borrow error:", err);
-    res.redirect("/sdmcet/staff/library");
+    return res.redirect("/sdmcet/staff/library");
   }
 });
 
