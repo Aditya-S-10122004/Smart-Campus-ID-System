@@ -422,3 +422,29 @@ html.dark .booking-panel {
 .mess-marquee:hover .mess-marquee-track {
   animation-play-state: paused;
 }
+
+.menu-day-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.menu-day-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.menu-day-dropdown {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+html.dark .menu-day-dropdown {
+  background: #0b1220;
+  color: #e6eef9;
+  border: 1px solid #374151;
+}

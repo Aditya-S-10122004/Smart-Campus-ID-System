@@ -133,6 +133,20 @@
         </table>
         <% } %>
 
+        <div class="menu-day-select">
+          <label for="menuDay" class="menu-day-label">Select Day:</label>
+          <select id="menuDay" class="menu-day-dropdown">
+            <option value="">Today</option>
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+          </select>
+        </div>
+
         <div class="section-title">Today's Menu</div>
 
         <div class="menu-card">
@@ -323,43 +337,43 @@
 
     <script>
       (function () {
-        function getWeekdayKey(date = new Date()) {
-          return date
+        const daySelect = document.getElementById("menuDay");
+
+        function getTodayKey() {
+          return new Date()
             .toLocaleDateString("en-US", { weekday: "long" })
             .toLowerCase();
         }
 
-        async function loadMenu() {
+        function renderItems(elementId, items) {
+          const el = document.getElementById(elementId);
+          if (!el) return;
+
+          if (!items || items.length === 0) {
+            el.innerHTML = "<em>Menu unavailable</em>";
+            return;
+          }
+
+          el.innerHTML =
+            "<ul class='menu-list'>" +
+            items.map((i) => `<li>${i}</li>`).join("") +
+            "</ul>";
+        }
+
+        async function loadMenu(dayKey = "") {
           try {
-            const res = await fetch("/data/menu.json", {
-              cache: "no-store",
-            });
+            const res = await fetch("/data/menu.json", { cache: "no-store" });
             const data = await res.json();
 
-            const todayKey = getWeekdayKey();
-            const todayMenu = data[todayKey] || {};
+            const key = dayKey || getTodayKey();
+            const menu = data[key] || {};
 
-            function renderItems(elementId, items) {
-              const el = document.getElementById(elementId);
-              if (!el) return;
-
-              if (!items || items.length === 0) {
-                el.innerHTML = "<em>Menu unavailable</em>";
-                return;
-              }
-
-              el.innerHTML =
-                "<ul class='menu-list'>" +
-                items.map((i) => `<li>${i}</li>`).join("") +
-                "</ul>";
-            }
-
-            renderItems("menu-breakfast", todayMenu.breakfast);
-            renderItems("menu-lunch", todayMenu.lunch);
-            renderItems("menu-snacks", todayMenu.snacks);
-            renderItems("menu-dinner", todayMenu.dinner);
-          } catch (err) {
-            console.log("Menu load error:", err);
+            renderItems("menu-breakfast", menu.breakfast);
+            renderItems("menu-lunch", menu.lunch);
+            renderItems("menu-snacks", menu.snacks);
+            renderItems("menu-dinner", menu.dinner);
+          } catch (e) {
+            console.log("Menu load error:", e);
             [
               "menu-breakfast",
               "menu-lunch",
@@ -372,11 +386,13 @@
           }
         }
 
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", loadMenu);
-        } else {
-          loadMenu();
+        if (daySelect) {
+          daySelect.addEventListener("change", () => {
+            loadMenu(daySelect.value);
+          });
         }
+
+        document.addEventListener("DOMContentLoaded", () => loadMenu());
       })();
     </script>
 
